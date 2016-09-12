@@ -1,0 +1,114 @@
+<div class="right_col pg_content_wrap" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Add Member
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row js_server_erro_msg server_mssage_sec">
+                        <div class="col-lg-12">
+                            <div class="msg_container">
+                                Message from server
+                            </div>
+                            <div class="ln_solid"></div>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal form-label-left" novalidate="">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                                First Name <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="specialName">
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="specialName" name="specialName" required="required"
+                                       class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Email <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="email" name="email" required="required"
+                                       class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Mobile Number  <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="mobile" name="mobile" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Alternate Mobile Number  <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="alterMobile" name="alterMobile" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Date Of Birth<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="dob" name="dob" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Address <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="addressOne" name="addressOne" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Address line 1">
+                                <br/><br/>
+                                <input id="addressTwo" name="addressTwo" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Address line 2">
+                                <br/><br/>
+                                <input id="city" name="city" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="City">
+                                <br/><br/>
+                                <input id="state" name="state" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="State">
+                                <br/><br/>
+                                <input id="pin" name="pin" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Pin code">
+                                <br/><br/>
+                                <input id="country" name="country" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 text-center">
+                                <button id="send" type="submit" class="btn btn-success">Add</button>
+                                <button class="btn btn-primary">Clear</button>
+                                <button class="btn btn-primary">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

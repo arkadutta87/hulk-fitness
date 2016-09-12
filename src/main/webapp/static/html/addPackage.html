@@ -1,0 +1,101 @@
+<div class="right_col pg_content_wrap" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Add Package
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form class="form-horizontal form-label-left" novalidate="">
+                        <div id="package_id" class="hide">{{addPkgObj.id}}</div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="name" placeholder="Package Name"
+                                       required="required" type="text" ng-model="addPkgObj.name" ng-change='addPkgChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="specialName">
+                                Special Name <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="specialName" name="specialName" required="required" placeholder="Package Special Name"
+                                       class="form-control col-md-7 col-xs-12" ng-model="addPkgObj.specialName" ng-change='addPkgChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">units of duration
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label for="unit1">
+                                    <input type="radio" name="units" id="unit1" value="1" ng-model="addPkgObj.durationUnitRd" ng-change='addPkgChange()'>
+                                    Months
+                                </label>
+                                <label for="unit2">
+                                    <input type="radio" name="units" id="unit2" value="2" ng-model="addPkgObj.durationUnitRd" ng-change='addPkgChange()'>
+                                    Days
+                                </label>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="durationVal">Duration Value <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="durationVal" required="required"
+                                       placeholder="-1" class="form-control col-md-7 col-xs-12" type="number" step="any"
+                                       ng-model="addPkgObj.durationValue" ng-change='addPkgChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">
+                                Price  <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="price" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="number" step="any" ng-model="addPkgObj.price" ng-change='addPkgChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="trailStatus">
+                                Is trial?
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <label for="trailStatus">
+                                    <input type="checkbox" name="trailStatus" id="trailStatus" ng-model="addPkgObj.isTrial" ng-change='addPkgChange()'>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="packageDetails">
+                                Package details <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <textarea id="packageDetails" required="required" name="packageDetails"
+                                          class="form-control col-md-7 col-xs-12" rows="5" ng-model="addPkgObj.packageDetails" ng-change='addPkgChange()'></textarea>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 text-center">
+                                <button id="send" type="submit" class="btn btn-success" ng-disabled="!addPkgFlag" ng-click="submitPkgAdd(addPkgObj.id)">Submit</button>
+                                <button class="btn btn-primary" ng-disabled="!addPkgFlag" ng-click="resetPkgAdd(addPkgObj.id,addPkgObj.name)">Reset</button>
+                                <button class="btn btn-warning" ng-click="cancelPkgAdd()" >Cancel</button>
+                                <!--button class="btn btn-danger" ng-click="pkgDeleteAdd(addPkgObj.id)">Delete</button-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
