@@ -4,6 +4,11 @@ target
 .mtj.tmp/
 .idea/*
 
+.classpath
+.project
+.settings/*
+epme.iml
+
 # Package Files #
 *.jar
 *.war
