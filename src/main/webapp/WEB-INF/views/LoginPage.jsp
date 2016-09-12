@@ -216,7 +216,7 @@
                     <label class="text-red" ng-bind="showRes" ></label>
                   </div>
                   <div>
-                    <a class="btn btn-default submit" href="#" ng-click="ctrl.changePwd()" ng-disabled="pwdMatch">Submit</a>
+                    <a class="btn btn-default submit" href="#" ng-click="pwdMatch || ctrl.changePwd()" ng-disabled="pwdMatch">Submit</a>
                   </div>
 
                   <div class="clearfix"></div>

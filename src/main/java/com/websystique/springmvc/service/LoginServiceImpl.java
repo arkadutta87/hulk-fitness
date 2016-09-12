@@ -162,6 +162,7 @@ public class LoginServiceImpl implements LoginService{
             //AppUser user = null;
             if(sess != null){
                 user = sess.getUser();
+                System.out.println("User came - getUserFromSession -- "+user);
             }
         }catch(Exception e)
         {

@@ -66,7 +66,7 @@ public class AppUser {
     private Date created_on;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    private Set<Session> sessions  = new HashSet<Session>(0);;
+    private Set<Session> sessions  = new HashSet<Session>(0);
 
     public AppUser() {
 
@@ -182,7 +182,6 @@ public class AppUser {
                 ", mobile='" + mobile + '\'' +
                 ", updated_on=" + updated_on +
                 ", created_on=" + created_on +
-                ", sessions=" + sessions +
                 '}';
     }
 }

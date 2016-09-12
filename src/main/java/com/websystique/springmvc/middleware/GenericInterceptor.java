@@ -18,12 +18,12 @@ import java.net.CookieStore;
  */
 public class GenericInterceptor extends HandlerInterceptorAdapter {
 
-    class HackResponse{
+    class HackResponse {
         private int code;
         private String message;
-        private String redirectURL ;
+        private String redirectURL;
 
-        public HackResponse(){
+        public HackResponse() {
 
         }
 
@@ -61,13 +61,13 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
     private static final String COOKIE_SESSION = "epme_session";
     private static final String INDEX_URL = "/epme/index/";
     private static final String DASHBOARD_URL = "/epme/index/dashboard/";
-    private static final String[] allPass = {"/index/login/","/index/changePassword/"};
+    private static final String[] allPass = {"/index/login/", "/index/changePassword/"};//temp
 
-    private boolean isallPass(String uri){
+    private boolean isallPass(String uri) {
         //boolean flag = false;
 
-        for(String str : allPass){
-            if(uri.contains(str)){
+        for (String str : allPass) {
+            if (uri.contains(str)) {
                 return true;
             }
         }
@@ -75,11 +75,11 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
-    private boolean isSessionActive(String sessionid){
+    private boolean isSessionActive(String sessionid) {
         //responsible for checking whether the session is active or not
-        if(sessionid.trim().isEmpty()){
+        if (sessionid.trim().isEmpty()) {
             return false;
-        }else{
+        } else {
             return loginService.isSessionActive(sessionid);
 
         }
@@ -92,22 +92,22 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
         long startTime = System.currentTimeMillis();
         System.out.println(" ---- I am inside the interceptor ----- ");
         System.out.println("Request URL::" + request.getRequestURL().toString()
-                + ":: Start Time=" + System.currentTimeMillis() + ",  request URI -- "+request.getRequestURI() + ", other data - "
+                + ":: Start Time=" + System.currentTimeMillis() + ",  request URI -- " + request.getRequestURI() + ", other data - "
                 + request);
 
         //logic
         String uri = request.getRequestURI();
 
-        if(isallPass(uri)){
+        if (isallPass(uri)) {
             return true;
-        }else{
+        } else {
 
             Cookie[] cookies = request.getCookies();
             String sessionId = "";
 
-            for(Cookie ck : cookies){
-                System.out.println("Name - " + ck.getName() + " : Value : "+ ck.getValue()  );
-                if(ck.getName().equals(COOKIE_SESSION)){
+            for (Cookie ck : cookies) {
+                System.out.println("Name - " + ck.getName() + " : Value : " + ck.getValue());
+                if (ck.getName().equals(COOKIE_SESSION)) {
                     sessionId = ck.getValue();
                 }
             }
@@ -115,13 +115,13 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
             System.out.println("Cookie value -- " + sessionId);
             boolean flag = isSessionActive(sessionId);
             if (!flag) {
-                if(uri.equals(INDEX_URL)){
+                if (uri.equals(INDEX_URL)) {
                     return true;
-                }else if(uri.equals(DASHBOARD_URL)){
+                } else if (uri.equals(DASHBOARD_URL)) {
                     //redirect him to index url
                     response.sendRedirect(INDEX_URL);
                     //return false;
-                }else{
+                } else {
                     //any other url send the {code : 11 , message : You are trying to hack in ,redirectURL : '/epme/index/'}
                     HackResponse res = new HackResponse();
                     res.setCode(11);
@@ -135,16 +135,17 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
                     //json.write(response.getWriter());
                     //return true;
                 }
-            }else{
-                if(uri.equals(INDEX_URL)){
+            } else {
+                if (uri.equals(INDEX_URL)) {
                     //redirect to dashboard
                     response.sendRedirect(DASHBOARD_URL);
-                }else if(uri.equals(DASHBOARD_URL)){
+                } else if (uri.equals(DASHBOARD_URL)) {
                     //add a session attribute as part of request
-                    request.setAttribute(Constants.SESSION_ID,sessionId);
+                    request.setAttribute(Constants.SESSION_ID, sessionId);
 
                     return true;
-                }else{
+                } else {
+                    request.setAttribute(Constants.SESSION_ID, sessionId);
                     return true;
                 }
 

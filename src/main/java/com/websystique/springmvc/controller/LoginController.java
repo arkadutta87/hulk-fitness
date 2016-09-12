@@ -122,7 +122,7 @@ public class LoginController {
         return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
     }
 
-        @RequestMapping(value = "/index/changePassword/", method = RequestMethod.POST)
+    @RequestMapping(value = "/index/changePassword/", method = RequestMethod.POST)
     public ResponseEntity<ChangePasswordResponse> loginAppUser(@RequestBody ChangePasswordRequest request) {
 
         ChangePasswordResponse response = new ChangePasswordResponse();
