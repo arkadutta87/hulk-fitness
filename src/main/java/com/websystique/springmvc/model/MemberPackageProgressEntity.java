@@ -31,7 +31,7 @@ public class MemberPackageProgressEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date entry_date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cus_pkg_ent_id", nullable=false)
     private CustomerPackageEntity updateText;
 

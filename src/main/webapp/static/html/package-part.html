@@ -1,0 +1,321 @@
+<div class="col-lg-6 col-md-6 col-xs-6 header_breadcrumb">
+
+
+    <ul class="breadcrumb breadcrumb_custom">
+        <li ng-cloak ng-repeat="aCrumb in innercrumbList" ng-class="isLastInner(aCrumb.id)?'active' : ''">
+            <a ng-if="!isLastInner(aCrumb.id)" ng-click="innerbrcrClick(aCrumb.id)" href="#"><b>{{aCrumb.value}}</b>></a>
+            <span ng-if="isLastInner(aCrumb.id)"><b>{{aCrumb.value}}</b></span>
+        </li>
+    </ul>
+
+</div>
+<div class="x_content js_packages_list_wrap">
+    <p class="text-muted font-13 m-b-30">
+        Lists all the <b>packages</b> enrolled by the user. Click on one to select
+        the respective package.
+    </p>
+
+    <div id="packageError" ng-class="aErr.flagP? '' : 'hide'"
+         class="row js_server_erro_msg server_mssage_sec">
+        <div class="col-sm-12">
+            <div class="msg_container">
+                {{aErr.msg}}
+            </div>
+            <div class="ln_solid"></div>
+        </div>
+    </div>
+
+    <div id="datatable-responsive_wrapper"
+         class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+        <form class="row form-inline packages_list_form_wrap">
+            <div class="form-group add_package_btn">
+                <input type="submit" value="Add Package"
+                       class="btn btn-success btn-sm" ng-click="package_part_add_association()">
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="datatable-responsive"
+                       class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline packages_list_table"
+                       cellspacing="0" width="100%" role="grid"
+                       aria-describedby="datatable-responsive_info"
+                       style="width: 100%;">
+                    <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1" colspan="1" aria-sort="ascending"
+                            aria-label="First name: activate to sort column descending">
+                            Package Name
+                        </th>
+                        <th class="sorting" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1"
+                            colspan="1"
+                            aria-label="Age: activate to sort column ascending">
+                            Final Price
+                        </th>
+                        <th class="sorting" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1"
+                            colspan="1"
+                            aria-label="Last name: activate to sort column ascending">
+                            Package Enrollment Date
+                        </th>
+                        <th class="sorting" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1"
+                            colspan="1"
+                            aria-label="Position: activate to sort column ascending">
+                            Package Utilization
+                        </th>
+                        <th class="sorting" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1"
+                            colspan="1">
+                            Package Expiration Date
+                        </th>
+                        <th class="sorting" tabindex="0"
+                            aria-controls="datatable-responsive"
+                            rowspan="1"
+                            colspan="1">
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%;"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%;"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%;"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%;"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="odd">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%;"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td tabindex="0" class="sorting_1">
+                            <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
+                        </td>
+                        <td>Rs 3500</td>
+                        <td>2016-09-08 00:00:01</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     style="width: 90%"></div>
+                            </div>
+                        </td>
+                        <td>2016-10-29 23:59:59</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="dataTables_info" id="datatable-responsive_info"
+                     role="status"
+                     aria-live="polite">Showing 1 to
+                    6 of 22 entries
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="dataTables_paginate paging_simple_numbers"
+                     id="datatable-responsive_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button previous disabled"
+                            id="datatable-responsive_previous"><a
+                                href="#" aria-controls="datatable-responsive"
+                                tabindex="0">Previous</a>
+                        </li>
+                        <li class="paginate_button active">
+                            <a href="#" aria-controls="datatable-responsive"
+                               tabindex="0">1</a>
+                        </li>
+                        <li class="paginate_button ">
+                            <a href="#" aria-controls="datatable-responsive"
+                               tabindex="0">2</a>
+                        </li>
+                        <li class="paginate_button ">
+                            <a href="#" aria-controls="datatable-responsive"
+                               tabindex="0">3</a>
+                        </li>
+                        <li class="paginate_button next"
+                            id="datatable-responsive_next">
+                            <a href="#" aria-controls="datatable-responsive"
+                               tabindex="0">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

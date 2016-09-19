@@ -1,0 +1,88 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "ng-daterangepicker",
+        "scope": null,
+        "escapedName": "ng-daterangepicker",
+        "name": "ng-daterangepicker",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/arkadutta/Documents/binary-workers/hulk-fitness"
+    ]
+  ],
+  "_from": "ng-daterangepicker@latest",
+  "_id": "ng-daterangepicker@0.9.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/ng-daterangepicker",
+  "_nodeVersion": "0.12.4",
+  "_npmUser": {
+    "name": "jkuri",
+    "email": "jkuri88@gmail.com"
+  },
+  "_npmVersion": "2.10.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ng-daterangepicker",
+    "scope": null,
+    "escapedName": "ng-daterangepicker",
+    "name": "ng-daterangepicker",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/ng-daterangepicker/-/ng-daterangepicker-0.9.0.tgz",
+  "_shasum": "39d2dd7536e4a7a7a2d850704b26dbe910729155",
+  "_shrinkwrap": null,
+  "_spec": "ng-daterangepicker",
+  "_where": "/Users/arkadutta/Documents/binary-workers/hulk-fitness",
+  "author": {
+    "name": "Jan Kuri",
+    "email": "jkuri88@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/jkuri/ngDaterangepicker/issues"
+  },
+  "dependencies": {},
+  "description": "AngularJS Daterangepicker",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "39d2dd7536e4a7a7a2d850704b26dbe910729155",
+    "tarball": "https://registry.npmjs.org/ng-daterangepicker/-/ng-daterangepicker-0.9.0.tgz"
+  },
+  "gitHead": "b725d6852be07147aaf2c5951cf9ed6f9120042c",
+  "homepage": "https://github.com/jkuri/ngDaterangepicker#readme",
+  "keywords": [
+    "AngularJS",
+    "date",
+    "picker",
+    "daterangepicker",
+    "range"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "jkuri",
+      "email": "jkuri88@gmail.com"
+    }
+  ],
+  "name": "ng-daterangepicker",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkuri/ngDaterangepicker.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.9.0"
+}

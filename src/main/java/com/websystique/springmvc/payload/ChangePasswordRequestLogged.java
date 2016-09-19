@@ -1,5 +1,8 @@
 package com.websystique.springmvc.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * Created by arkadutta on 06/09/16.
  */

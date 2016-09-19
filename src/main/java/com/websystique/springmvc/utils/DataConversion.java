@@ -1,9 +1,8 @@
 package com.websystique.springmvc.utils;
 
-import com.websystique.springmvc.model.Member;
+import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.model.Package;
-import com.websystique.springmvc.model.User;
-import com.websystique.springmvc.model.UserPayLoad;
+import com.websystique.springmvc.payload.MemberCRUDResponse;
 import com.websystique.springmvc.payload.MemberPayLoad;
 import com.websystique.springmvc.payload.PackageCRUDResponse;
 import com.websystique.springmvc.payload.PackagePayLoad;
@@ -144,6 +143,33 @@ public class DataConversion {
             res.setPrice(pkg.getPrice());
             res.setDurationValue(pkg.getDurationValue());
             res.setPackageDetails(pkg.getPackageDetails());
+        }
+    }
+
+    public static void convertMemberModelToMemberCRUDRes(Member mem, MemberCRUDResponse res){
+        if(mem!= null){
+            res.setId(mem.getId());
+            res.setFirstName(mem.getFirstName());
+            res.setLastName(mem.getLastName());
+            res.setEmail(mem.getEmail());
+            res.setMobile(mem.getMobile());
+            res.setAlternateMobile(mem.getAlternateMobile());
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            String format = formatter.format(mem.getDate_of_birth());
+            res.setDate_of_birth(format);
+            res.setEnrollment_date(formatter.format(mem.getEnrollment_date()));
+            res.setLatest_pkg_expiry_date(formatter.format(mem.getLatest_pkg_expiry()));
+            res.setProfile_pic_url(mem.getProfile_pic_url());
+
+            Address addr = mem.getAddress();
+            res.setLineOne(addr.getLineOne());
+            res.setAddress_id(addr.getId());
+            res.setLineTwo(addr.getLineTwo());
+            res.setPinCode(addr.getPinCode());
+            res.setCity(addr.getCity());
+            res.setState(addr.getState());
+            res.setCountry(addr.getCountry());
+
         }
     }
 }

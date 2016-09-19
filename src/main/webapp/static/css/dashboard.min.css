@@ -5012,7 +5012,14 @@ ul.notifications {
     float: right;
     margin: -3px 12px 10px;
 }
-
+.repeat_pass_wrap {
+position:relative;
+}
+.change_pwd_repeat_css{
+    position: absolute;
+    right: 20px;
+    top: 11px;
+}
 .pwd_tick_icon {
     color: green;
 }
@@ -5056,6 +5063,24 @@ a.package_list_name:hover{
     color : green;
 }
 
+.custom_list_wrap  {
+    padding-top:10px;
+    padding-bottom: 30px;
+    padding-left: 15px;
+}
+ul.custom_ul {
+    margin:0 ;
+    padding:0;
+}
+ul.custom_ul > li {
+    list-style: none;
+    font-size: 14px;
+    line-height: 28px;
+}
+.cus_hide {
+display: none;
+}
+
 
 /** Add memeber style**/
 .server_mssage_sec {
@@ -5064,3 +5089,119 @@ a.package_list_name:hover{
     color:red;
     padding-bottom: 20px;
 }
+
+.package_association_css{
+    background-color: yellow
+}
+
+.table-fixed-custom thead {
+   width: 97%;
+ }
+ .table-fixed-custom tbody {
+   height: 230px;
+   overflow-y: auto;
+   width: 100%;
+ }
+ .table-fixed-custom thead, .table-fixed-custom tbody, .table-fixed-custom tr, .table-fixed-custom td, .table-fixed-custom th {
+   display: block;
+ }
+ .table-fixed-custom tbody td, .table-fixed-custom thead > tr> th {
+   float: left;
+   border-bottom-width: 0;
+ }
+
+
+ ul.modern-table {
+     display: table;
+     width: 100%;
+     padding:0;
+     position: relative;
+ }
+
+ li.table-row {
+     list-style: none;
+         display: table;
+         width: 100%;
+         background: #f9f9f9;
+         font-weight: bold;
+         border-top: 0;
+ }
+ li.table-row.odd {
+background: #f9f9f9;
+ }
+ li.table-row.even {
+ background: #fff;
+ }
+
+  li.table-row.no-pad {
+  padding:0;
+  }
+
+ li.table-col {
+         list-style: none;
+         display: table-cell;
+         width: 30%;
+         padding: 12px 0;
+ }
+
+ ul.table-head {
+     padding: 0 13px;
+         margin: 0;
+         width: 100%;
+         display: table;
+         position: absolute;
+         top: 0;
+         border: 1px solid #ddd;
+         background: #fff;
+         font-weight: bold;
+ }
+
+ ul.table-head .table-col.one {
+      width: 30%;
+  }
+
+ ul.table-head .table-col.two {
+     width: 70%;
+     border-left: 1px solid #ddd;
+     padding-left: 15px;
+ }
+
+ ul.table-body {
+         position: relative;
+         margin-top: 40px;
+         max-height: 260px;
+         overflow-y: scroll;
+         padding: 0;
+         display: block;
+         width: 100%;
+ }
+
+ div.table-col {
+     width: 100%;
+ }
+
+ div.table-cell-one {
+         width: 30.8%;
+         display: table-cell;
+         padding: 13px;
+         border: 1px solid #ddd;
+         border-right: 0;
+             font-weight: normal;
+ }
+
+ .table-cell-two {
+             width: 70%;
+             display: table-cell;
+             border-left: 1px solid #ddd;
+             padding-left: 13px;
+             border: 1px solid #ddd;
+                 font-weight: normal;
+ }
+
+ .prof_details_inner_wrap {
+        display: table-cell;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-top:0;
+        border-bottom:0;
+ }

@@ -40,6 +40,7 @@
     <link href="<c:url value='/static/vendors/normalize-css/normalize.css' />"  rel="stylesheet">
     <link href="<c:url value='/static/vendors/ion.rangeSlider/css/ion.rangeSlider.css' />"  rel="stylesheet">
     <link href="<c:url value='/static/vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css' />"  rel="stylesheet">
+    <link href="<c:url value='/static/vendors/ng-datepicker/src/css/ngDatepicker.css' />"  rel="stylesheet">
 
 <style type="text/css">
 .modal-dialog {
@@ -80,19 +81,18 @@
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-cookies.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="<c:url value='/static/vendors/moment/moment.js' />"></script>
+<script
+	src="<c:url value='/static/vendors/ng-datepicker/src/js/ngDatepicker.js' />"></script>
 <script src="<c:url value='/static/js/home.js' />"></script>
 <script src="<c:url value='/static/js/controller/home_controller.js' />"></script>
 <script src="<c:url value='/static/js/factory/home_factory.js' />"></script>
-
-<!-- bootstrap-daterangepicker -->
-<script src="<c:url value='/static/vendors/moment/moment.js' />"></script>
 
 <!-- Jquery-SmartWizard -->
 <script src="<c:url value='/static/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js' />"></script>
 <script
 	src="<c:url value='/static/vendors/bootstrap-daterangepicker/daterangepicker.js' />"></script>
-<!-- Ion.RangeSlider -->
-<script src="<c:url value='/static/vendors/ion.rangeSlider/js/ion.rangeSlider.min.js' />"></script>
 <script>
     $(document).ready(function () {
         $('#myModal').modal('show');

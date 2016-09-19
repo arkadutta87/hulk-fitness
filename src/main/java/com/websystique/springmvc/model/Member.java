@@ -53,11 +53,11 @@ public class Member {
     @Column(name = "profile_pic_url")
     private String profile_pic_url;
 
-    @Column(name = "date_of_birth", columnDefinition = "DATETIME" ,updatable = false)
+    @Column(name = "date_of_birth", columnDefinition = "DATETIME" )
     @Temporal(TemporalType.TIMESTAMP)
     private Date date_of_birth;
 
-    @Column(name = "enrollment_date", columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "enrollment_date", columnDefinition = "DATETIME")//, updatable = false
     @Temporal(TemporalType.TIMESTAMP)
     private Date enrollment_date;
 
@@ -198,6 +198,7 @@ public class Member {
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", alternateMobile='" + alternateMobile + '\'' +
+                ", address=" + address +
                 ", profile_pic_url='" + profile_pic_url + '\'' +
                 ", date_of_birth=" + date_of_birth +
                 ", enrollment_date=" + enrollment_date +

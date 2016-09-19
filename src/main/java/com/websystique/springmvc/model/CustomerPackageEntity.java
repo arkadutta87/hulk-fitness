@@ -1,5 +1,7 @@
 package com.websystique.springmvc.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -72,6 +74,10 @@ public class CustomerPackageEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_rating_id")
     private ReviewRating reviewRating;
+
+    @Column(name = "is_enabled", columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isEnabled;
 
     @OneToMany(mappedBy = "updateText", fetch = FetchType.LAZY)
     private Set<MemberPackageProgressEntity> progressUnit = new HashSet<MemberPackageProgressEntity>(0);
@@ -180,6 +186,14 @@ public class CustomerPackageEntity {
         this.progressUnit = progressUnit;
     }
 
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "CustomerPackageEntity{" +
@@ -194,6 +208,9 @@ public class CustomerPackageEntity {
                 ", updated_on=" + updated_on +
                 ", created_on=" + created_on +
                 ", updatedBy='" + updatedBy + '\'' +
+                ", reviewRating=" + reviewRating +
+                ", isEnabled=" + isEnabled +
+                ", progressUnit=" + progressUnit +
                 '}';
     }
 }

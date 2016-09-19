@@ -1,0 +1,145 @@
+<div class="right_col pg_content_wrap" role="main">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        Edit Member {{profileMem.firstName + ' ' + profileMem.lastName}}
+                    </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div id="packageError" ng-class="aErr.flagP? '' : 'hide'" class="row js_server_erro_msg server_mssage_sec">
+                        <div class="col-sm-12">
+                            <div class="msg_container">
+                                {{aErr.msg}}
+                            </div>
+                            <div class="ln_solid"></div>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal form-label-left" novalidate="">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                                First Name <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                       data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe"
+                                       required="required" type="text" ng-model="profileMem.firstName" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="specialName">
+                                Last Name <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="specialName" name="specialName" required="required"
+                                       class="form-control col-md-7 col-xs-12" ng-model="profileMem.lastName" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Email
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="text" id="email" name="email"
+                                       class="form-control col-md-7 col-xs-12"
+                                       ng-model="profileMem.email" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Mobile Number  <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="mobile" name="mobile" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" ng-model="profileMem.mobile" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Alternate Mobile Number
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="alterMobile" name="alterMobile" class="form-control col-md-7 col-xs-12 active"
+                                       type="text" ng-model="profileMem.alternateMobile" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Date Of Birth<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="dob" name="dob" class="date-picker form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" ng-model="profileMem.date_of_birth" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Enrollment Date<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="enroll_date" name="enroll_date" class="date-picker form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" ng-model="profileMem.enrollment_date" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                Address <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="addressOne" name="addressOne" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Address line 1"
+                                       ng-model="profileMem.lineOne" ng-change='addMemChange()'>
+                                <br/><br/>
+                                <input id="addressTwo" name="addressTwo" class="form-control col-md-7 col-xs-12 active"
+                                       type="text" placeholder="Address line 2"
+                                       ng-model="profileMem.lineTwo" ng-change='addMemChange()'>
+                                <br/><br/>
+                                <input id="city" name="city" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="City"
+                                       ng-model="profileMem.city" ng-change='addMemChange()'>
+                                <br/><br/>
+                                <input id="state" name="state" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="State"
+                                       ng-model="profileMem.state" ng-change='addMemChange()'>
+                                <br/><br/>
+                                <input id="pin" name="pin" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="number" placeholder="Pin code"
+                                       ng-model="profileMem.pinCode" ng-change='addMemChange()'>
+                                <br/><br/>
+                                <input id="country" name="country" class="form-control col-md-7 col-xs-12 active"
+                                       required="required" type="text" placeholder="Country"
+                                       ng-model="profileMem.country" ng-change='addMemChange()'>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 text-center">
+                                <button id="send" type="submit" class="btn btn-success" ng-disabled="!addMemFlag" ng-click="submitMemEdit()">Submit</button>
+                                <button class="btn btn-warning" ng-disabled="!addMemFlag" ng-click="resetMemEdit(profileMem.id)">Clear</button>
+                                <button class="btn btn-danger" ng-click="cancelMemberEdit()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        $('#dob').daterangepicker({
+          singleDatePicker: true,
+          calender_style: "picker_4"
+        }, function(start, end, label) {
+          console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#enroll_date').daterangepicker({
+          singleDatePicker: true,
+          calender_style: "picker_4"
+        }, function(start, end, label) {
+          console.log(start.toISOString(), end.toISOString(), label);
+        });
+</script>

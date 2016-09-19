@@ -13,7 +13,9 @@ public class URLHelper {
 	
 	private static String[] urls = {"../../static/html/firstPage.html",
 			"../../static/html/a.html","../../static/html/members.html","../../static/html/b.html","../../static/html/addPackage.html"
-            ,"../../static/html/changePassword.html"};
+            ,"../../static/html/changePassword.html","../../static/html/addMember.html","../../static/html/c.html",
+            "../../static/html/profile-part.html","../../static/html/package-part.html","../../static/html/package-association.html",
+            "../../static/html/editMember.html","../../static/html/package_association_details.html"};
 	
 	private static URLHelper ourInstance = new URLHelper();
 	private URLObjContainer container ;

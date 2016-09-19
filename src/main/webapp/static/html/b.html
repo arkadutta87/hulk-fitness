@@ -36,11 +36,11 @@
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <label for="unit1">
-                                    <input type="radio" name="units" id="unit1" value="1" ng-model="editPkgObj.durationUnitRd" ng-change='editPkgChange()'>
+                                    <input type="radio" disabled name="units" id="unit1" value="1" ng-model="editPkgObj.durationUnitRd" ng-change='editPkgChange()'>
                                     Months
                                 </label>
                                 <label for="unit2">
-                                    <input type="radio" name="units" id="unit2" value="2" ng-model="editPkgObj.durationUnitRd" ng-change='editPkgChange()'>
+                                    <input type="radio" disabled name="units" id="unit2" value="2" ng-model="editPkgObj.durationUnitRd" ng-change='editPkgChange()'>
                                     Days
                                 </label>
                             </div>
@@ -50,9 +50,9 @@
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="durationVal" required="required"
-                                       placeholder="-1" class="form-control col-md-7 col-xs-12" type="number" step="any"
-                                       ng-model="editPkgObj.durationValue" ng-change='editPkgChange()'>
+                                <input  id="durationVal"
+                                        class="form-control col-md-7 col-xs-12 active" type="number" step="any"
+                                        disabled ng-model="editPkgObj.durationValue">
                             </div>
                         </div>
                         <div class="item form-group">
@@ -60,8 +60,9 @@
                                 Price  <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="price" class="form-control col-md-7 col-xs-12 active"
-                                       required="required" type="number" step="any" ng-model="editPkgObj.price" ng-change='editPkgChange()'>
+                                <input  id="price"
+                                        class="form-control col-md-7 col-xs-12 active"
+                                        type="number"  step="any" disabled ng-model="editPkgObj.price">
                             </div>
                         </div>
                         <div class="item form-group">
