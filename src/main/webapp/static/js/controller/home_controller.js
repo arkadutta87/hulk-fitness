@@ -14,17 +14,24 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     $scope.crumbList = [];
     var pkgCurrentPage = 1;
+    //Arka
+    var step3 = 1;
+    $scope.MCECount = 0;
+    $scope.MCEPaginationStrt = 0;
+    $scope.MCEPaginationEnd = 0;
+    var MCEStep = 10; // need to change along with backend
+    $scope.memberPaginationList = [];
     $scope.pkgCount = 0;
     $scope.pkPaginationStrt = 0;
     $scope.pkPaginationEnd = 0;
-    var pkgStep = 1; // need to change along with backend
+    var pkgStep = 10; // need to change along with backend
     $scope.packagePaginationList = [];
 
     var memberCurrentPage = 1;
     $scope.memberCount = 0;
     $scope.memberPaginationStrt = 0;
     $scope.memberPaginationEnd = 0;
-    var memberStep = 1; // need to change along with backend
+    var memberStep = 10; // need to change along with backend
     $scope.memberPaginationList = [];
 
     $scope.brMap = new Map();
@@ -1078,19 +1085,167 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     }
 
+    /*
+        Block of Package Member Entity part : Arka
+    */
+
+    $scope.isMCEPaginationActive = function(id) {
+        if (step3 == id)
+            return true;
+        else
+            return false;
+    }
+
+    $scope.mcepaginate = function(id) {
+        step3 = id;
+        // $scope.pkgObject['step'] = pkgCurrentPage;
+        //$scope.pkg_assoc_id = 0;
+        //$scope.pkg_assoc_flag = false;
+
+        $('#myModal').modal('show');
+        getMCE();
+    }
+
+    $scope.isMCEPrevNextDisabled = function(str) {
+        if (str == 'previous') {
+            if (step3 <= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (str == 'next') {
+            if (step3 * MCEStep >= $scope.MCECount) {
+                return true;
+            } else {
+                return false;
+            }
+        } else
+            return false;
+
+    }
+
+    $scope.mce_prev_next = function(str) {
+        if (str == 'previous')
+            $scope.mcepaginate(step3 - 1);
+        else if (str == 'next')
+            $scope.mcepaginate(step3 + 1);
+    }
+
+
+    var fixMemberPagnStrEnd = function() {
+        $scope.MCEPaginationStrt = (step3 - 1) * memberStep + 1;
+        $scope.MCEPaginationEnd = step3 * memberStep;
+
+        if ($scope.MCEPaginationEnd > $scope.MCECount) {
+            $scope.MCEPaginationEnd = $scope.MCECount;
+        }
+    }
+
+    var setUpMCEPagination = function() {
+        var i = -1;
+        if ($scope.MCECount == 0) {
+            i = 0;
+            $scope.MCEPaginationStrt = 0;
+            $scope.MCEPaginationEnd = 0;
+        } else if ($scope.MCECount % memberStep == 0) {
+            i = $scope.MCECount / memberStep;
+            fixMemberPagnStrEnd();
+        } else {
+            i = ($scope.MCECount  / memberStep) + 1;
+            fixMemberPagnStrEnd();
+        }
+        $scope.MCEPaginationList = [];
+        for (var j = 1; j <= i; j++) {
+            var o1 = {};
+            o1['id'] = j;
+
+            $scope.MCEPaginationList.push(o1);
+
+        }
+
+        //pkgCurrentPage = 1;
+    }
+
+    var initializeMCE = function(){
+        step3 = 1;
+        $scope.MCECount = 0;
+        $scope.MCEPaginationList = [];
+    }
+
+
+
+    var getMCE = function() {
+        var obj= {};
+        obj['id'] = $scope.profileMem.id;
+        obj['step'] = step3;
+        HomeFactory.getpkgmemberlist(obj)
+            .success(function(data) {
+                //create the map and assign the first basic -- for this create a function
+                var code = data.code;
+                if (code != 0) {
+                    $('#myModal').modal('hide');
+                    alert("Be prepared nothing will work. Please contact Admin.");
+                } else {
+                    $scope.MCEList = data.packages;
+                    $scope.MCECount = data.count;
+
+                    var arrayLength = $scope.MCEList.length;
+                    for (var i = 0; i < arrayLength; i++) {
+                        var obj = $scope.MCEList[i];
+                        //$scope.profileStyle = {'width' : $scope.profileMem['pkg_utilization_percentage'] + '%' }
+                        obj['profileStyle'] = {'width' : obj['pkg_utilization_percentage'] + '%' };
+
+                        //Do something
+                    }
+                    setUpMCEPagination();
+                    //setUpMemberPagination();
+                    setTimeout(function() {
+                        $('#myModal').modal('hide');
+                    }, 800);
+                }
+
+            })
+            .error(function(error) {
+                console.log("Error fetching the packageememberentity  list");
+                $('#myModal').modal('hide');
+                alert("Be prepared nothing will work. Please contact Admin.");
+            }).finally(function() {
+                console.log('getpkgmemberlist method call finished');
+            });
+    }
+
     $scope.package_enrolled = function(){
         if(!profileFlag2){
             $('#myModal').modal('show');
             innerBreadcrumsSetup();
             setinnerbrList(10);
+
+            initializeMCE();
+            getMCE();
             $scope.currentProfilePackagePage = $scope.map[10];
-            setTimeout(function() {
-                $('#myModal').modal('hide');
-            }, 1000);
+
             profileFlag2 = true;
         }
 
     }
+
+
+
+    $scope.isOddMCE = function(id) {
+        var elementPos = $scope.MCEList.map(function(x) {
+            return x.id;
+        }).indexOf(id);
+        if (elementPos % 2 == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
+
+
 
     //Arka
     $scope.package_part_add_association = function(){

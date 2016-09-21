@@ -39,8 +39,8 @@ public class CustomerPackageEntityRestController {
     private static final String SUCCESS = "success";
     private static final String ACCOUNT_DEACTIVATED = "The account has been deactivated. Contact your administrator";
 
-    private static final int PAGE_COUNT_SEC = 1;
-    private static final boolean sendSMSFlag = false;
+    private static final int PAGE_COUNT_SEC = 10;
+    private static final boolean sendSMSFlag = true;
 
     @RequestMapping(value = "/index/home/customerpackageentity/list/", method = RequestMethod.POST)
     public ResponseEntity<CustomerPackageEntityListResponse> listCustomerPackageEntity(@RequestBody CustomerPackageEntityListRequest request) {
@@ -334,6 +334,24 @@ public class CustomerPackageEntityRestController {
     public ResponseEntity<CustomerPackageEntityReadResponse> readCustomerPackageEntity(@RequestBody CustomerPackageEntityReadRequest request) {
         System.out.println(" --- Inside read customerpackageentity call ---- ");
         CustomerPackageEntityReadResponse response = new CustomerPackageEntityReadResponse();
+        if (request == null || request.getId() <= 0 ) {
+            response.setCode(4);
+            response.setMessage(REQUEST_DATA_ABSENT);
+        }else{
+            long id = request.getId();
+            response = memberService.getCustomerPackageEntityReadResponse(id);
+
+            if(response == null){
+                response = new CustomerPackageEntityReadResponse();
+                response.setCode(4);
+                response.setMessage(REQUEST_DATA_ABSENT);
+                System.out.println("Its a hack attempt. Inside read customerpackageentity call");
+            }else{
+                response.setCode(0);
+                response.setMessage(SUCCESS);
+
+            }
+        }
         /*if (request == null || request.getStep() <= 0 ) {
             response.setCode(4);
             response.setMessage(REQUEST_DATA_ABSENT);

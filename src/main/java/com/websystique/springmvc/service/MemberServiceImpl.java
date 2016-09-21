@@ -2,9 +2,8 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.model.Package;
-import com.websystique.springmvc.payload.CustomerPackageEntityPaginationObject;
-import com.websystique.springmvc.payload.CustomerPackageEntityPayLoad;
-import com.websystique.springmvc.payload.MemberFilter;
+import com.websystique.springmvc.payload.*;
+import com.websystique.springmvc.utils.DataConversion;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -16,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,12 +23,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Service("memberService")
 @Transactional
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    private Session getCurrentSession(){
+    private Session getCurrentSession() {
         return this.sessionFactory.getCurrentSession();
     }
 
@@ -62,7 +58,7 @@ public class MemberServiceImpl implements MemberService{
         if (mobileStr != null && !(mobileStr.trim().isEmpty())) {
             Criterion q1 = Restrictions.ilike("mobile", mobileStr, MatchMode.ANYWHERE);
             Criterion q2 = Restrictions.ilike("alternateMobile", mobileStr, MatchMode.ANYWHERE);
-            countQuery.add(Restrictions.or(q1, q2 ));
+            countQuery.add(Restrictions.or(q1, q2));
 
         }
         //countQuery.add(Restrictions.eq("isEnabled",true));
@@ -73,7 +69,7 @@ public class MemberServiceImpl implements MemberService{
         //Query countQuery = session.createQuery(countQ);
         //Long countResults = (Long) countQuery.uniqueResult();
 
-        if(countResults == 0){
+        if (countResults == 0) {
             MemberPaginationObject obj = new MemberPaginationObject();
             obj.setTotalCount(countResults);
             obj.setPackages(new ArrayList<Member>());
@@ -83,12 +79,12 @@ public class MemberServiceImpl implements MemberService{
 
         int start = -1;
 
-        if((step-1) * count >= countResults){
+        if ((step - 1) * count >= countResults) {
             System.out.println("#################### Possible attempt to hack in #############");
             return null;
         }
 
-        start = (step-1)*count  ;
+        start = (step - 1) * count;
 
         //String hql = "from Package u where ";//where u.username=:unameStr and u.password=:pwdStr";
         Criteria query = session.createCriteria(Member.class);
@@ -105,7 +101,7 @@ public class MemberServiceImpl implements MemberService{
         if (mobileStr != null && !(mobileStr.trim().isEmpty())) {
             Criterion q1 = Restrictions.ilike("mobile", mobileStr, MatchMode.ANYWHERE);
             Criterion q2 = Restrictions.ilike("alternateMobile", mobileStr, MatchMode.ANYWHERE);
-            query.add(Restrictions.or(q1, q2 ));
+            query.add(Restrictions.or(q1, q2));
 
         }
 
@@ -116,7 +112,7 @@ public class MemberServiceImpl implements MemberService{
         query.setMaxResults(count);
         List<Member> members = query.list();
 
-        System.out.println("The number of packages -- "+members.size() + " --- ");
+        System.out.println("The number of packages -- " + members.size() + " --- ");
 
         MemberPaginationObject obj = new MemberPaginationObject();
         obj.setTotalCount(countResults);
@@ -126,7 +122,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberPaginationObject getMember(int step, int count,int timeExpiry ) {
+    public MemberPaginationObject getMember(int step, int count, int timeExpiry) {
         int pageSize = count;
         Session session = getCurrentSession();
 
@@ -139,9 +135,8 @@ public class MemberServiceImpl implements MemberService{
         Date date = c.getTime();
 
 
-
         Criteria countQuery = session.createCriteria(Member.class);
-        countQuery.add(Restrictions.le("latest_pkg_expiry",date));
+        countQuery.add(Restrictions.le("latest_pkg_expiry", date));
 
         //countQuery.add(Restrictions.eq("isEnabled",true));
         countQuery.setProjection(Projections.rowCount());
@@ -151,7 +146,7 @@ public class MemberServiceImpl implements MemberService{
         //Query countQuery = session.createQuery(countQ);
         //Long countResults = (Long) countQuery.uniqueResult();
 
-        if(countResults == 0){
+        if (countResults == 0) {
             MemberPaginationObject obj = new MemberPaginationObject();
             obj.setTotalCount(countResults);
             obj.setPackages(new ArrayList<Member>());
@@ -161,16 +156,16 @@ public class MemberServiceImpl implements MemberService{
 
         int start = -1;
 
-        if((step-1) * count >= countResults){
+        if ((step - 1) * count >= countResults) {
             System.out.println("#################### Possible attempt to hack in #############");
             return null;
         }
 
-        start = (step-1)*count  ;
+        start = (step - 1) * count;
 
         //String hql = "from Package u where ";//where u.username=:unameStr and u.password=:pwdStr";
         Criteria query = session.createCriteria(Member.class);
-        countQuery.add(Restrictions.le("latest_pkg_expiry",date));
+        countQuery.add(Restrictions.le("latest_pkg_expiry", date));
 
         //sort based on updation_date
 
@@ -179,7 +174,7 @@ public class MemberServiceImpl implements MemberService{
         query.setMaxResults(count);
         List<Member> members = query.list();
 
-        System.out.println("The number of packages -- "+members.size() + " --- ");
+        System.out.println("The number of packages -- " + members.size() + " --- ");
 
         MemberPaginationObject obj = new MemberPaginationObject();
         obj.setTotalCount(countResults);
@@ -192,7 +187,7 @@ public class MemberServiceImpl implements MemberService{
     public void saveMember(Member mem) {
         Session session = getCurrentSession();
         session.persist(mem.getAddress());
-        System.out.println("Member added successfully, Member Details= "+mem);
+        System.out.println("Member added successfully, Member Details= " + mem);
     }
 
     @Override
@@ -200,7 +195,7 @@ public class MemberServiceImpl implements MemberService{
 
         Session session = getCurrentSession();
         session.update(mem);
-        System.out.println("Update Member call - "+mem);
+        System.out.println("Update Member call - " + mem);
 
     }//editAddress
 
@@ -209,7 +204,7 @@ public class MemberServiceImpl implements MemberService{
 
         Session session = getCurrentSession();
         session.update(mem);
-        System.out.println("Update CustomerPackageEntity call - "+mem);
+        System.out.println("Update CustomerPackageEntity call - " + mem);
 
     }
 
@@ -219,18 +214,18 @@ public class MemberServiceImpl implements MemberService{
         Session session = getCurrentSession();
 
         session.update(addr);
-        System.out.println("Update Address call - "+addr);
+        System.out.println("Update Address call - " + addr);
 
     }
 
     @Override
-    public Member getMemberFromId(long id){
+    public Member getMemberFromId(long id) {
         Session session = getCurrentSession();
         Member m = null;
-        try{
+        try {
             m = (Member) session.load(Member.class, id);
-            System.out.println("Member loaded -- "+m);
-        }catch(Exception e){
+            System.out.println("Member loaded -- " + m);
+        } catch (Exception e) {
             e.printStackTrace();
             m = null;
         }
@@ -240,7 +235,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public int getMemberPackageUtilizationPercentage(long id){
+    public int getMemberPackageUtilizationPercentage(long id) {
         Session session = getCurrentSession();
 
         Criteria query = session.createCriteria(CustomerPackageEntity.class);
@@ -248,55 +243,55 @@ public class MemberServiceImpl implements MemberService{
         query.add(q1);
         Criterion q2 = Restrictions.ge("package_expiry_date", new Date());
         query.add(q2);
-        query.add(Restrictions.eq("isEnabled",true));
+        query.add(Restrictions.eq("isEnabled", true));
 
         query.addOrder(Order.asc("package_expiry_date"));
         query.setFirstResult(0);
         query.setMaxResults(10);
         List<CustomerPackageEntity> objects = query.list();
 
-        if(objects!= null && !objects.isEmpty()){
+        if (objects != null && !objects.isEmpty()) {
             CustomerPackageEntity aObj = objects.get(0);
 
             Date start = aObj.getPackage_enrollment_date();
-            Date end  = aObj.getPackage_expiry_date();
+            Date end = aObj.getPackage_expiry_date();
 
             long total_days = TimeUnit.DAYS.convert(end.getTime() - start.getTime(), TimeUnit.MILLISECONDS);
             long remaining_days = TimeUnit.DAYS.convert(end.getTime() - (new Date()).getTime(), TimeUnit.MILLISECONDS);
 
-            System.out.println("Total days -- "+ total_days + " -- remaining days -- "+remaining_days);
+            System.out.println("Total days -- " + total_days + " -- remaining days -- " + remaining_days);
 
-            double percentage_elapsed = ((int)total_days - (int)remaining_days )/ (double)total_days * 100;
-            System.out.println("Utilization percentage -- "+ percentage_elapsed);
+            double percentage_elapsed = ((int) total_days - (int) remaining_days) / (double) total_days * 100;
+            System.out.println("Utilization percentage -- " + percentage_elapsed);
             return new Double(percentage_elapsed).intValue();
             //System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
 
-        }else{
+        } else {
             Criteria query2 = session.createCriteria(CustomerPackageEntity.class);
             Criterion q12 = Restrictions.eq("member_id", id);
             query2.add(q12);
-            query2.add(Restrictions.eq("isEnabled",true));
+            query2.add(Restrictions.eq("isEnabled", true));
             query2.addOrder(Order.asc("package_expiry_date"));
             query2.setFirstResult(0);
             query2.setMaxResults(2);
             List<CustomerPackageEntity> objects2 = query2.list();
 
-            if(objects2 == null || objects2.isEmpty()){
+            if (objects2 == null || objects2.isEmpty()) {
                 return 0;
-            }else{
+            } else {
                 return 100;
             }
 
         }
     }
 
-    private Package getPackageFromId(long id){
+    private Package getPackageFromId(long id) {
         Session session = getCurrentSession();
         Package p = null;
-        try{
+        try {
             p = (Package) session.load(Package.class, id);
-            System.out.println("Package loaded -- "+p);
-        }catch(Exception e){
+            System.out.println("Package loaded -- " + p);
+        } catch (Exception e) {
             e.printStackTrace();
             p = null;
         }
@@ -305,13 +300,13 @@ public class MemberServiceImpl implements MemberService{
         return p;
     }
 
-    public CustomerPackageEntity getCustomerPackageEntityFromId(long id){
+    public CustomerPackageEntity getCustomerPackageEntityFromId(long id) {
         Session session = getCurrentSession();
         CustomerPackageEntity p = null;
-        try{
+        try {
             p = (CustomerPackageEntity) session.load(CustomerPackageEntity.class, id);
-            System.out.println("CustomerPackageEntity loaded -- "+p);
-        }catch(Exception e){
+            System.out.println("CustomerPackageEntity loaded -- " + p);
+        } catch (Exception e) {
             e.printStackTrace();
             p = null;
         }
@@ -321,13 +316,13 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
-    private String convertToStrDate(Date obj){
+    private String convertToStrDate(Date obj) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");//yyyy-MM-dd HH:mm:ss.S
         String str = "";
-        try{
+        try {
             str = simpleDateFormat.format(obj);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             //dob = new Date();
         }
@@ -336,14 +331,14 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void saveCustomerPackageEntity(CustomerPackageEntity obj){
+    public void saveCustomerPackageEntity(CustomerPackageEntity obj) {
         Session session = getCurrentSession();
         session.persist(obj);
-        System.out.println("CustomerPackageEntity added successfully, CustomerPackageEntity Details= "+obj);
+        System.out.println("CustomerPackageEntity added successfully, CustomerPackageEntity Details= " + obj);
     }
 
     @Override
-    public Date getExpiryDateAssociatedWithMember(long memberId,long custPkgEntityId){
+    public Date getExpiryDateAssociatedWithMember(long memberId, long custPkgEntityId) {
         Session session = getCurrentSession();
 
         Date adt = new Date();
@@ -352,23 +347,23 @@ public class MemberServiceImpl implements MemberService{
         Criteria query = session.createCriteria(CustomerPackageEntity.class);
         Criterion q11 = Restrictions.eq("member_id", memberId);
         query.add(q11);
-        query.add(Restrictions.eq("isEnabled",true));
-        query.add(Restrictions.ne("id",custPkgEntityId));
+        query.add(Restrictions.eq("isEnabled", true));
+        query.add(Restrictions.ne("id", custPkgEntityId));
         query.add(Restrictions.ge("package_expiry_date", adt));
         query.addOrder(Order.asc("package_expiry_date"));
 
         query.setFirstResult(0);
         query.setMaxResults(2);
         List<CustomerPackageEntity> objects = query.list();
-        if(objects!= null && !objects.isEmpty()){
+        if (objects != null && !objects.isEmpty()) {
             CustomerPackageEntity aObj = objects.get(0);
             return aObj.getPackage_expiry_date();
-        }else{
+        } else {
             //check the left half
             query = session.createCriteria(CustomerPackageEntity.class);
-            query.add( Restrictions.eq("member_id", memberId));
-            query.add(Restrictions.eq("isEnabled",true));
-            query.add(Restrictions.ne("id",custPkgEntityId));
+            query.add(Restrictions.eq("member_id", memberId));
+            query.add(Restrictions.eq("isEnabled", true));
+            query.add(Restrictions.ne("id", custPkgEntityId));
             query.add(Restrictions.lt("package_expiry_date", adt));
             query.addOrder(Order.desc("package_expiry_date"));
 
@@ -376,10 +371,10 @@ public class MemberServiceImpl implements MemberService{
             query.setMaxResults(2);
             List<CustomerPackageEntity> objects2 = query.list();
 
-            if(objects2!= null && !objects2.isEmpty()){
+            if (objects2 != null && !objects2.isEmpty()) {
                 CustomerPackageEntity aObj = objects.get(0);
                 return aObj.getPackage_expiry_date();
-            }else{
+            } else {
                 Calendar c = Calendar.getInstance();
                 c.setTime(adt); // Now use today date.
                 c.add(Calendar.YEAR, 100);//Add 100 year
@@ -393,7 +388,7 @@ public class MemberServiceImpl implements MemberService{
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date adt1 = null;
                 try {
-                    adt1= simpleDateFormat.parse(dateStr);
+                    adt1 = simpleDateFormat.parse(dateStr);
                 } catch (ParseException e) {
                     e.printStackTrace();
                     adt1 = new Date();
@@ -405,7 +400,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public CustomerPackageEntityPaginationObject getCustomerPackageEntityList(long id, int step, int count){
+    public CustomerPackageEntityPaginationObject getCustomerPackageEntityList(long id, int step, int count) {
 
         int pageSize = count;
         Session session = getCurrentSession();
@@ -413,9 +408,8 @@ public class MemberServiceImpl implements MemberService{
         Criteria count_query = session.createCriteria(CustomerPackageEntity.class);
         Criterion q1 = Restrictions.eq("member_id", id);
         count_query.add(q1);
-        count_query.add(Restrictions.eq("isEnabled",true));
+        count_query.add(Restrictions.eq("isEnabled", true));
         count_query.addOrder(Order.asc("package_expiry_date"));
-
 
 
         //countQuery.add(Restrictions.eq("isEnabled",true));
@@ -426,7 +420,7 @@ public class MemberServiceImpl implements MemberService{
         //Query countQuery = session.createQuery(countQ);
         //Long countResults = (Long) countQuery.uniqueResult();
 
-        if(countResults == 0){
+        if (countResults == 0) {
             CustomerPackageEntityPaginationObject obj = new CustomerPackageEntityPaginationObject();
             obj.setTotalCount(countResults);
             obj.setaList(new ArrayList<CustomerPackageEntityPayLoad>());
@@ -436,25 +430,25 @@ public class MemberServiceImpl implements MemberService{
 
         int start = -1;
 
-        if((step-1) * count >= countResults){
+        if ((step - 1) * count >= countResults) {
             System.out.println("#################### Possible attempt to hack in #############");
             return null;
         }
 
-        start = (step-1)*count  ;
+        start = (step - 1) * count;
 
         //String hql = "from Package u where ";//where u.username=:unameStr and u.password=:pwdStr";
         Criteria query = session.createCriteria(CustomerPackageEntity.class);
         Criterion q11 = Restrictions.eq("member_id", id);
         query.add(q11);
-        query.add(Restrictions.eq("isEnabled",true));
+        query.add(Restrictions.eq("isEnabled", true));
         query.addOrder(Order.asc("package_expiry_date"));
 
         query.setFirstResult(start);
         query.setMaxResults(count);
         List<CustomerPackageEntity> custPkgEntList = query.list();
 
-        System.out.println("The number of CustomerPackageEntity -- "+custPkgEntList.size() + " --- ");
+        System.out.println("The number of CustomerPackageEntity -- " + custPkgEntList.size() + " --- ");
 
         //MemberPaginationObject obj = new MemberPaginationObject();
         //obj.setTotalCount(countResults);
@@ -462,8 +456,8 @@ public class MemberServiceImpl implements MemberService{
 
         CustomerPackageEntityPaginationObject obj = new CustomerPackageEntityPaginationObject();
         obj.setTotalCount(countResults);
-        List<CustomerPackageEntityPayLoad> arr =  new ArrayList<CustomerPackageEntityPayLoad>();
-        for(CustomerPackageEntity aObj : custPkgEntList){
+        List<CustomerPackageEntityPayLoad> arr = new ArrayList<CustomerPackageEntityPayLoad>();
+        for (CustomerPackageEntity aObj : custPkgEntList) {
 
             System.out.println(aObj);
             CustomerPackageEntityPayLoad o1 = new CustomerPackageEntityPayLoad();
@@ -477,18 +471,18 @@ public class MemberServiceImpl implements MemberService{
 
             //package expired calculation
             Date startdt = aObj.getPackage_enrollment_date();
-            Date end  = aObj.getPackage_expiry_date();
+            Date end = aObj.getPackage_expiry_date();
 
             long total_days = TimeUnit.DAYS.convert(end.getTime() - startdt.getTime(), TimeUnit.MILLISECONDS);
             long remaining_days = TimeUnit.DAYS.convert(end.getTime() - (new Date()).getTime(), TimeUnit.MILLISECONDS);
 
-            if(remaining_days <= 0  )
+            if (remaining_days <= 0)
                 remaining_days = 0;
 
-            System.out.println("Total days -- "+ total_days + " -- remaining days -- "+remaining_days);
+            System.out.println("Total days -- " + total_days + " -- remaining days -- " + remaining_days);
 
-            double percentage_elapsed = ((int)total_days - (int)remaining_days )/ (double)total_days * 100;
-            System.out.println("Utilization percentage -- "+ percentage_elapsed);
+            double percentage_elapsed = ((int) total_days - (int) remaining_days) / (double) total_days * 100;
+            System.out.println("Utilization percentage -- " + percentage_elapsed);
             o1.setPkg_utilization_percentage(new Double(percentage_elapsed).intValue());
             arr.add(o1);
 
@@ -501,9 +495,80 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void saveProgressText(MemberPackageProgressEntity o1){
+    public void saveProgressText(MemberPackageProgressEntity o1) {
         Session session = getCurrentSession();
         session.persist(o1);
-        System.out.println("MemberPackageProgressEntity added successfully, MemberPackageProgressEntity Details= "+o1);
+        System.out.println("MemberPackageProgressEntity added successfully, MemberPackageProgressEntity Details= " + o1);
+    }
+
+    @Override
+    public CustomerPackageEntityReadResponse getCustomerPackageEntityReadResponse(long id) {
+        Session session = getCurrentSession();
+        Criteria query = session.createCriteria(CustomerPackageEntity.class);
+        query.add(Restrictions.eq("id", id));
+        query.createAlias("progressUnit", "c");
+        query.addOrder(Order.desc("c.entry_date"));
+
+        List<CustomerPackageEntity> objects = query.list();
+        if (objects != null && !objects.isEmpty()) {
+            CustomerPackageEntity aObj = objects.get(0);
+            System.out.println(aObj);
+
+            long pkg_id = aObj.getPackage_id();
+            Package pkg = getPackageFromId(pkg_id);
+
+            CustomerPackageEntityReadResponse obj = new CustomerPackageEntityReadResponse();
+            obj.setDiscount_percentage(aObj.getDiscount_percentage());
+            obj.setFinal_price(aObj.getFinal_price());
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
+            obj.setPackage_enrollment_date(sdf.format(aObj.getPackage_enrollment_date()));
+            obj.setPackage_expiry_date(sdf.format(aObj.getPackage_expiry_date()));
+            obj.setTop_up_time(aObj.getTop_up_time());
+
+            obj.setPackage_name(pkg.getName());
+            obj.setPackage_details(pkg.getPackageDetails());
+
+            Set<MemberPackageProgressEntity> lst = aObj.getProgressUnit();
+            List<ProgressBlock> progress = new ArrayList<ProgressBlock>();
+
+            for (MemberPackageProgressEntity obj1 : lst) {
+                ProgressBlock o1 = new ProgressBlock();
+                o1.setId(obj1.getId());
+                o1.setEntry_date(sdf.format(obj1.getEntry_date()));
+                o1.setText(obj1.getText());
+
+                progress.add(o1);
+            }
+
+            obj.setProgress(progress);
+
+            return obj;
+
+        } else {
+            CustomerPackageEntity aObj = getCustomerPackageEntityFromId(id);
+            if(aObj == null){
+                return null;
+            }else{
+                long pkg_id = aObj.getPackage_id();
+                Package pkg = getPackageFromId(pkg_id);
+
+                CustomerPackageEntityReadResponse obj = new CustomerPackageEntityReadResponse();
+                obj.setDiscount_percentage(aObj.getDiscount_percentage());
+                obj.setFinal_price(aObj.getFinal_price());
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy ");
+                obj.setPackage_enrollment_date(sdf.format(aObj.getPackage_enrollment_date()));
+                obj.setPackage_expiry_date(sdf.format(aObj.getPackage_expiry_date()));
+                obj.setTop_up_time(aObj.getTop_up_time());
+
+                obj.setPackage_name(pkg.getName());
+                obj.setPackage_details(pkg.getPackageDetails());
+
+                List<ProgressBlock> progress = new ArrayList<ProgressBlock>();
+                obj.setProgress(progress);
+
+                return obj;
+            }
+
+        }
     }
 }

@@ -61,7 +61,7 @@
                             rowspan="1"
                             colspan="1"
                             aria-label="Last name: activate to sort column ascending">
-                            Package Enrollment Date
+                            Package Enrollment Date (MM/dd/yyyy)
                         </th>
                         <th class="sorting" tabindex="0"
                             aria-controls="datatable-responsive"
@@ -74,7 +74,7 @@
                             aria-controls="datatable-responsive"
                             rowspan="1"
                             colspan="1">
-                            Package Expiration Date
+                            Package Expiration Date (MM/dd/yyyy)
                         </th>
                         <th class="sorting" tabindex="0"
                             aria-controls="datatable-responsive"
@@ -85,7 +85,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr role="row" class="odd">
+                    <tr ng-cloak role="row" ng-repeat="aPkg in MCEList" ng-class="isOddMCE(aPkg.id)? 'odd' : 'even'">
+                        <td tabindex="0" class="sorting_1"><a href="#" ng-click="package_assoc_details('Hulk Fitness Package 1')"
+                                                              class="member_list_name">{{aPkg.pkg_name}}</a></td>
+                        <td>{{aPkg.final_price}}</td>
+                        <td>{{aPkg.enrollment_date}}</td>
+                        <td>
+                            <div class="progress progress_sm">
+                                <div class="progress-bar bg-green"
+                                     role="progressbar"
+                                     data-transitiongoal="50" aria-valuenow="79"
+                                     ng-style="aPkg.profileStyle"></div>
+                            </div>
+                        </td>
+                        <td>{{aPkg.package_expiry_date}}</td>
+                        <td><a href="#" class="btn btn-danger btn-xs"><i
+                                class="fa fa-trash-o"></i>
+                            Delete </a></td>
+                    </tr>
+                    <!--tr role="row" class="odd">
                         <td tabindex="0" class="sorting_1">
                             <a href="#" class="member_list_name" ng-click="package_assoc_details('Hulk Fitness Package 1')">Puja Bumper 2</a>
                         </td>
@@ -274,21 +292,36 @@
                         <td><a href="#" class="btn btn-danger btn-xs"><i
                                 class="fa fa-trash-o"></i>
                             Delete </a></td>
-                    </tr>
+                    </tr-->
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-5">
-                <div class="dataTables_info" id="datatable-responsive_info"
-                     role="status"
-                     aria-live="polite">Showing 1 to
-                    6 of 22 entries
+                <div class="dataTables_info" id="datatable-responsive_info" role="status"
+                     aria-live="polite">Showing {{MCEPaginationStrt}} to {{MCEPaginationEnd}} of {{MCECount}} entries
                 </div>
             </div>
             <div class="col-sm-7">
                 <div class="dataTables_paginate paging_simple_numbers"
+                     id="datatable-responsive_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button previous" ng-class="isMCEPrevNextDisabled('previous') ? 'disabled' : '' "
+                            id="datatable-responsive_previous"><a
+                                href="#" aria-controls="datatable-responsive" ng-click="isMCEPrevNextDisabled('previous') || mce_prev_next('previous')"
+                                tabindex="0">Previous</a>
+                        </li>
+                        <li ng-cloak  ng-repeat="aPage in MCEPaginationList" class="paginate_button" ng-class="isMCEPaginationActive(aPage.id)? 'active' : ''">
+                            <a href="#" aria-controls="datatable-responsive" ng-click="mcepaginate(aPage.id)" tabindex="0">{{aPage.id}}</a>
+                        </li>
+                        <li class="paginate_button next" id="datatable-responsive_next" ng-class="isMCEPrevNextDisabled('next') ? 'disabled' : ''">
+                            <a href="#" aria-controls="datatable-responsive" ng-click="isMCEPrevNextDisabled('next') || mce_prev_next('next')"
+                               tabindex="0">Next</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--div class="dataTables_paginate paging_simple_numbers"
                      id="datatable-responsive_paginate">
                     <ul class="pagination">
                         <li class="paginate_button previous disabled"
@@ -314,7 +347,7 @@
                                tabindex="0">Next</a>
                         </li>
                     </ul>
-                </div>
+                </div-->
             </div>
         </div>
     </div>

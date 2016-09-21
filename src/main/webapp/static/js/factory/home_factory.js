@@ -13,6 +13,7 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
 	var ADD_MEMBER_URI = '../home/member/add/';
 	var READ_MEMBER_URI = '../home/member/read/';
 	var EDIT_MEMBER_URI = '../home/member/edit/';
+	var PKG_MEMBER_LIST = '../home/customerpackageentity/list/';
 	return {
 
 		logout : function(a) {
@@ -56,6 +57,10 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
         },
         editmember : function(a) {
             return $http.post(EDIT_MEMBER_URI, a);
+        },
+
+        getpkgmemberlist : function(a) {
+            return $http.post(PKG_MEMBER_LIST, a);
         }
 
 	}

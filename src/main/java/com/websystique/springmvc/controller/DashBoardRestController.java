@@ -39,7 +39,7 @@ public class DashBoardRestController {
     private static final String SUCCESS = "success";
     private static final String ACCOUNT_DEACTIVATED = "The account has been deactivated. Contact your administrator";
 
-    private static final int PAGE_COUNT = 1;
+    private static final int PAGE_COUNT = 10;
     private static final boolean sendSMSFlag = false;
 
     @RequestMapping(value = "/index/home/initialize/", method = RequestMethod.GET)

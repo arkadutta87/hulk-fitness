@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.payload.CustomerPackageEntityPaginationObject;
+import com.websystique.springmvc.payload.CustomerPackageEntityReadResponse;
 import com.websystique.springmvc.payload.MemberFilter;
 import com.websystique.springmvc.payload.PackageFilter;
 
@@ -37,5 +38,7 @@ public interface MemberService {
     public void saveCustomerPackageEntity(CustomerPackageEntity obj) ;
 
     public void saveProgressText(MemberPackageProgressEntity o1);
+
+    public CustomerPackageEntityReadResponse getCustomerPackageEntityReadResponse(long id);
 
 }
