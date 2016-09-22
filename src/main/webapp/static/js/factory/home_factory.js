@@ -14,6 +14,9 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
 	var READ_MEMBER_URI = '../home/member/read/';
 	var EDIT_MEMBER_URI = '../home/member/edit/';
 	var PKG_MEMBER_LIST = '../home/customerpackageentity/list/';
+	var PKG_MEMBER_DELETE = '../home/customerpackageentity/delete/';
+	var PKG_MEMBER_ADD = '../home/customerpackageentity/add/';
+	var PKG_MEMBER_READ = '../home/customerpackageentity/read/';
 	return {
 
 		logout : function(a) {
@@ -61,6 +64,15 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
 
         getpkgmemberlist : function(a) {
             return $http.post(PKG_MEMBER_LIST, a);
+        },
+        deletepkgmember : function(a) {
+            return $http.post(PKG_MEMBER_DELETE, a);
+        },
+        addpkgmember : function(a) {
+            return $http.post(PKG_MEMBER_ADD, a);
+        },
+        readpkgmember : function(a) {
+            return $http.post(PKG_MEMBER_READ, a);
         }
 
 	}

@@ -15,26 +15,26 @@
         <ul class="custom_ul">
             <li>
                 <div class="col-lg-6">
-                    Name :
+                   Package Name :
                 </div>
                 <div class="col-lg-6">
-                    Suresh
-                </div>
-            </li>
-            <li>
-                <div class="col-lg-6">
-                    Special Name :
-                </div>
-                <div class="col-lg-6">
-                    Pattu
+                    {{pkgDetailsAssData['package_name'] }}
                 </div>
             </li>
             <li>
                 <div class="col-lg-6">
-                    Enrolled On :
+                    Final Price :
                 </div>
                 <div class="col-lg-6">
-                    Jan 11, 2016
+                    {{pkgDetailsAssData['final_price'] }}
+                </div>
+            </li>
+            <li>
+                <div class="col-lg-6">
+                    Discount Percentage :
+                </div>
+                <div class="col-lg-6">
+                    {{pkgDetailsAssData['discount_percentage'] }}%
                 </div>
             </li>
         </ul>
@@ -43,26 +43,26 @@
         <ul class="custom_ul">
             <li>
                 <div class="col-lg-6">
-                    Price :
+                    Package Enrollment Date :
                 </div>
                 <div class="col-lg-6">
-                    Rs. 1500
-                </div>
-            </li>
-            <li>
-                <div class="col-lg-6">
-                    Duration :
-                </div>
-                <div class="col-lg-6">
-                    3 Months
+                    {{pkgDetailsAssData['package_enrollment_date'] }}
                 </div>
             </li>
             <li>
                 <div class="col-lg-6">
-                    Expriration Date :
+                    Package Expiry Date :
                 </div>
                 <div class="col-lg-6">
-                    Sep 2, 2016
+                    {{pkgDetailsAssData['package_expiry_date'] }}
+                </div>
+            </li>
+            <li>
+                <div class="col-lg-6">
+                    Top Up Time :
+                </div>
+                <div class="col-lg-6">
+                    {{pkgDetailsAssData['top_up_time'] }} days
                 </div>
             </li>
         </ul>
@@ -73,58 +73,23 @@
     <div class="col-lg-12">
         <form class="form">
             <div class="form-group">
-                Details:
+                Package Details:
                 <br/>
-                <input type="text" class="form-control">
+                <textarea id="packageDetails" required="required" name="packageDetails"
+                          class="form-control " rows="5" disabled ng-model="pkgDetailsAssData.package_details"></textarea>
             </div>
         </form>
         <div class="x_content js_packages_list_wrap">
             <p class="text-muted font-13 m-b-30">
-                Lists all the <b>packages</b> present in the system. Click on one to
-                select
-                the respective
-                package.
+                Lists of  all <b>entries</b> related to this package for the member.Click on the id to see the text associated with the entry.
             </p>
-
-            <div id="packageError" ng-class="aErr.flagP? '' : 'hide'"
-                 class="row js_server_erro_msg server_mssage_sec">
-                <div class="col-sm-12">
-                    <div class="msg_container">
-                        {{aErr.msg}}
-                    </div>
-                    <div class="ln_solid"></div>
-                </div>
-            </div>
 
             <div id="datatable-responsive_wrapper"
                  class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                 <form class="row form-inline packages_list_form_wrap">
-                    <!--div class="form-group mar_right--10">
-                        <input id="pkg1" type="search" class="form-control input-sm"
-                               placeholder="search on name"/>
-                    </div>
-                    <div class="form-group mar_right--10">
-                        <select id="pkg2" data-name="enabled"
-                                class="auto-width search-filter form-control input-sm">
-                            <option value="-1">Duration-Unit</option>
-                            <option value="-2">---</option>
-                            <option data-name="enabled__exact" value="1">DAYS
-                            </option>
-                            <option data-name="enabled__exact" value="0">MONTHS
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group mar_right--10">
-                        <input id="pkg3" type="number" step="any"
-                               class="form-control input-sm" placeholder="value"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" ng-click="pkgSearch()" value="Search"
-                               class="btn btn-info btn-sm">
-                    </div-->
                     <div class="form-group add_package_btn">
-                        <input type="submit" value="Add Updation Text"
-                               class="btn btn-success btn-sm">
+                        <input type="submit" value="Add Progress Text"
+                               class="btn btn-success btn-sm" ng-click="openProgressModal()">
                     </div>
                 </form>
 
@@ -143,7 +108,24 @@
                             </li>
                             <li class="table-row no-pad">
                                 <ul class="table-body">
-                                    <li class="table-row odd">
+                                    <div ng-cloak ng-repeat="aPkg in pkgDetailsAssData['progress']" >
+                                        <li class="table-row " ng-class="isProgressRow(aPkg.id)? 'odd' : 'even'">
+                                            <div class="table-cell-one">
+                                                <a href="#" class="package_list_name js_toggle_info" ng-click='progressClick(aPkg.id)'>
+                                                    {{aPkg.id}}
+                                                </a>
+                                            </div>
+                                            <div class="table-cell-two">
+                                                {{aPkg.entry_date}}
+                                            </div>
+                                        </li>
+                                        <div ng-if="isShowProgressText(aPkg.id)" class="prof_details_wrap">
+                                            <div class="prof_details_inner_wrap">
+                                                {{aPkg.text}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--li class="table-row odd">
                                         <div class="table-cell-one">
                                             <a href="#" class="package_list_name js_toggle_info">
                                                 001
@@ -218,385 +200,13 @@
                                             including versions
                                             of Lorem Ipsum.
                                         </div>
-                                    </li>
-                                    <li class="table-row odd">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row even">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row odd">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
-                                    <li class="table-row even">
-                                        <div class="table-cell-one">
-                                            <a href="#" class="package_list_name js_toggle_info">
-                                                001
-                                            </a>
-                                        </div>
-                                        <div class="table-cell-two">
-                                            2016-02-03 23:59:59
-                                        </div>
-                                        <div class="cus_hide prof_details_wrap">
-                                            Lorem Ipsum is simply dummy text of
-                                            the printing
-                                            and typesetting industry. Lorem
-                                            Ipsum has been
-                                            the industry's standard dummy text
-                                            ever since
-                                            the 1500s, when an unknown printer
-                                            took a galley
-                                            of type and scrambled it to make a
-                                            type specimen
-                                            book. It has survived not only five
-                                            centuries,
-                                            but also the leap into electronic
-                                            typesetting,
-                                            remaining essentially unchanged. It
-                                            was
-                                            popularised in the 1960s with the
-                                            release of
-                                            Letraset sheets containing Lorem
-                                            Ipsum passages,
-                                            and more recently with desktop
-                                            publishing
-                                            software like Aldus PageMaker
-                                            including versions
-                                            of Lorem Ipsum.
-                                        </div>
-                                    </li>
+                                    </li-->
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <!--div class="row">
-                <div class="col-sm-5">
-                    <div class="dataTables_info" id="datatable-responsive_info"
-                         role="status"
-                         aria-live="polite">Showing {{pkPaginationStrt}} to
-                        {{pkPaginationEnd}} of {{pkgCount}} entries
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <div class="dataTables_paginate paging_simple_numbers"
-                         id="datatable-responsive_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button previous"
-                                ng-class="isPkgPrevNextDisabled('previous') ? 'disabled' : '' "
-                                id="datatable-responsive_previous"><a
-                                    href="#"
-                                    aria-controls="datatable-responsive"
-                                    ng-click="isPkgPrevNextDisabled('previous') || pkg_prev_next('previous')"
-                                    tabindex="0">Previous</a>
-                            </li>
-                            <li ng-cloak
-                                ng-repeat="aPage in packagePaginationList"
-                                class="paginate_button"
-                                ng-class="isPaginationActive(aPage.id)? 'active' : ''">
-                                <a href="#" aria-controls="datatable-responsive"
-                                   ng-click="paginate(aPage.id)" tabindex="0">{{aPage.id}}</a>
-                            </li>
-                            <li class="paginate_button next"
-                                id="datatable-responsive_next"
-                                ng-class="isPkgPrevNextDisabled('next') ? 'disabled' : ''">
-                                <a href="#" aria-controls="datatable-responsive"
-                                   ng-click="isPkgPrevNextDisabled('next') || pkg_prev_next('next')"
-                                   tabindex="0">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div-->
         </div>
     </div>
-</div>
 </div>

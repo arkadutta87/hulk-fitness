@@ -103,7 +103,8 @@
 </head>
 
 <body class="nav-md" ng-app="homeApp">
-	<div class="container body" ng-controller="HomeController as ctrl">
+<div ng-controller="HomeController as ctrl">
+	<div class="container body" >
 		<div class="main_container">
 			<div class="col-md-3 left_col menu_fixed pg_left_col">
 				<div class="left_col scroll-view">
@@ -242,6 +243,33 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+	<div id="progressModal" class="modal fade " tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-content-wrap">
+                    <form class="form-horizontal form-label-left" novalidate="">
+                        <div class="form-group" style="color: whitesmoke;">
+                            Text:
+                            <br/>
+                            <textarea id="packageDetails" required="required" name="packageDetails"
+                                      class="form-control " rows="7" ng-model="progressObj.text" ></textarea>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 text-center">
+                                <button id="send" type="submit" class="btn btn-success" >Submit</button>
+                                <button class="btn btn-primary" ng-click="progressTextAddReset()">Reset</button>
+                                <button class="btn btn-warning" ng-click="progressTextAddCancel()" >Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+  </div>
 	<!-- /.modal -->
 
 	<!-- scripts -->

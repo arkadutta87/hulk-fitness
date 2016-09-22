@@ -1089,6 +1089,40 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
         Block of Package Member Entity part : Arka
     */
 
+    $scope.MCEDelete = function(id) {
+        console.log("Delete Package Member Association Entity with id - " + id);
+        $('#myModal').modal('show');
+        var obj = {};
+        obj['id'] = id;
+        HomeFactory.deletepkgmember(obj)
+            .success(function(data) {
+                //create the map and assign the first basic -- for this create a function
+                var code = data.code;
+                if (code != 0) {
+                    $('#myModal').modal('hide');
+                    alert("The Package Member Association Entity couldnot be deleted. Please contact Admin.");
+                } else {
+                    profileFlag2 = false;
+                    $scope.package_enrolled();
+                    $scope.aErr.msg = "The Package Member Association Entity with id - " + id + " deleted";
+                    $scope.aErr.flagP = true;
+
+                    setTimeout(function() {
+                        $scope.aErr['flagP'] = false;
+                        $scope.aErr['msg'] = "";
+                        $scope.$apply();
+                    }, 2000);
+                }
+            })
+            .error(function(error) {
+                console.log("The Package Member Association Entity couldnot be deleted. Please contact Admin.");
+                $('#myModal').modal('hide');
+                alert("The Package Member Association Entity couldnot be deleted. Please contact Admin.");
+            }).finally(function() {
+                console.log('MCEDelete method call finished');
+            });
+    }
+
     $scope.isMCEPaginationActive = function(id) {
         if (step3 == id)
             return true;
@@ -1160,10 +1194,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             o1['id'] = j;
 
             $scope.MCEPaginationList.push(o1);
-
         }
-
-        //pkgCurrentPage = 1;
     }
 
     var initializeMCE = function(){
@@ -1194,8 +1225,6 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
                         var obj = $scope.MCEList[i];
                         //$scope.profileStyle = {'width' : $scope.profileMem['pkg_utilization_percentage'] + '%' }
                         obj['profileStyle'] = {'width' : obj['pkg_utilization_percentage'] + '%' };
-
-                        //Do something
                     }
                     setUpMCEPagination();
                     //setUpMemberPagination();
@@ -1203,7 +1232,6 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
                         $('#myModal').modal('hide');
                     }, 800);
                 }
-
             })
             .error(function(error) {
                 console.log("Error fetching the packageememberentity  list");
@@ -1229,8 +1257,6 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     }
 
-
-
     $scope.isOddMCE = function(id) {
         var elementPos = $scope.MCEList.map(function(x) {
             return x.id;
@@ -1243,11 +1269,72 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
     }
 
 
+    /*
+        Block of Package Member Entity part : Arka
+    */
+
+    $scope.submitMCEAdd = function(){
+        console.log(JSON.stringify($scope.addMCE));
+        if ($scope.addMCE.discount && $scope.addMCE.top_up && $scope.pkg_associate_dt.date) {
+
+            $('#myModal').modal('show');
+            var obj = {};
+            obj['package_id'] = $scope.pkg_assoc_id;
+            obj['member_id'] = $scope.profileMem['id'];
+            obj['discount_percentage'] = $scope.addMCE.discount;
+            obj['top_up_time'] = $scope.addMCE.top_up;
+            obj['package_enrollment_date'] = $scope.pkg_associate_dt.date;
+            //populateSubmitAddObject(obj);
+
+            HomeFactory.addpkgmember(obj)
+                .success(function(data) {
+                    //create the map and assign the first basic -- for this create a function
+                    var code = data.code;
+                    if (code != 0) {
+                        //$scope.addPkgObj = {};
+                        $('#myModal').modal('hide');
+                        alert("The Package Member Association Entity  - couldnot be added. Please contact Admin.");
+                    } else {
+
+                        profileFlag2 = false;
+                        $scope.package_enrolled();
+                        $scope.aErr.msg = "The Package Member Association Entity with package_id - " + obj['package_id']  + " created";
+                        $scope.aErr.flagP = true;
+                        //$scope.currentPage = $scope.map[2];
+
+                        setTimeout(function() {
+                            $scope.aErr['flagP'] = false;
+                            $scope.aErr['msg'] = "";
+                            $scope.$apply();
+                        }, 2000);
+
+                    }
+
+                })
+                .error(function(error) {
+                    console.log("The Package Member Association Entity  - couldnot be added. Please contact Admin.");
+                    $('#myModal').modal('hide');
+                    alert("The Package Member Association Entity  - couldnot be added. Please contact Admin.");
+                }).finally(function() {
+                    console.log('submitMCEAdd method call finished');
+                });
 
 
-
+        } else {
+            alert('---  Kindly fill all the fields, before clicking on submit -- ');
+        }
+    }
 
     //Arka
+    $scope.submitMCEReset = function(){
+        $scope.addMemFlag = false;
+        $scope.addMCE = {};
+
+        $scope.pkg_associate_dt = {} ;
+        $scope.pkg_associate_dt.date;
+
+    }
+
     $scope.package_part_add_association = function(){
         $('#myModal').modal('show');
         initPage(1);
@@ -1284,7 +1371,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             $('#pkg-prof-object-'+id).css('background-color', '#f9f9f9');
             $scope.pkg_assoc_flag = false;
         }
-
+        $scope.addMCE = {};
         //$scope.$apply();
     }
 
@@ -1411,24 +1498,112 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     }
 
-    //Arka
-    $scope.package_assoc_details = function(name){
+    //Arka - Shalmoli
+    $scope.openProgressModal = function(){
+        $scope.progressObj = {};
+        $('#progressModal').modal(
+        {
+             backdrop: 'static',
+             keyboard: false,
+             show:true
+        });
+    }
+
+    $scope.progressTextAddCancel = function(){
+        $('#progressModal').modal('hide');
+        $scope.progressObj = {};
+    }
+
+    $scope.progressTextAddReset = function(){
+        $scope.progressObj = {};
+    }
+
+    $scope.isProgressRow = function(id){
+
+        var elementPos = $scope.pkgDetailsAssData.progress.map(function(x) {
+            return x.id;
+        }).indexOf(id);
+
+        if (elementPos % 2 == 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    $scope.progressClick = function(id){
+        var num = $scope.progressMap.get(id);
+        if(num && num == 1){
+            $scope.progressMap.delete(id);
+        }else{
+            $scope.progressMap.set(id,1);
+        }
+    }
+
+    $scope.isShowProgressText  = function(id){
+        var num = $scope.progressMap.get(id);
+        if(num && num == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $scope.package_assoc_details = function(id,name){
         $('#myModal').modal('show');
         //initPage(1);
-        $scope.pkg_assoc_id = -1;
-        $scope.pkg_assoc_flag = false;
-        $scope.innercrumbList = [];
-        $scope.innercrumbList.push({
-           'id': 10,
-           'value': 'Home'
-        },{
-            'id': 13,
-            'value': name + ' - Association Details'
-        });
-        $scope.currentProfilePackagePage = $scope.map[13];
-        setTimeout(function() {
-            $('#myModal').modal('hide');
-        }, 1000);
+        $scope.pkgDetailsAssData = {};
+        var obj = {
+            'id': id
+        };
+        HomeFactory.readpkgmember(obj)
+            .success(function(data) {
+                //create the map and assign the first basic -- for this create a function
+                var code = data.code;
+                if (code != 0) {
+                    $scope.pkgDetailsAssData = {};
+                    $('#myModal').modal('hide');
+                    alert("The package association with name - " + name + " couldnot be fetched. Please contact Admin.");
+                } else {
+                    $scope.pkg_assoc_id = -1;
+                    $scope.pkg_assoc_flag = false;
+                    $scope.innercrumbList = [];
+                    $scope.innercrumbList.push({
+                       'id': 10,
+                       'value': 'Home'
+                    },{
+                        'id': 13,
+                        'value': name + ' - Association Details'
+                    });
+
+                    $scope.progressMap = new Map();
+                    $scope.currentProfilePackagePage = $scope.map[13];
+                    //add response data to model
+                    $scope.pkgDetailsAssData['package_name'] = data.package_name;
+                    $scope.pkgDetailsAssData['package_details'] = data.package_details;
+                    $scope.pkgDetailsAssData['discount_percentage'] = data.discount_percentage;
+                    $scope.pkgDetailsAssData['final_price'] = data.final_price;
+                    $scope.pkgDetailsAssData['top_up_time'] = data.top_up_time;
+                    $scope.pkgDetailsAssData['package_enrollment_date'] = data.package_enrollment_date;
+                    $scope.pkgDetailsAssData['package_expiry_date'] = data.package_expiry_date;
+                    $scope.pkgDetailsAssData['progress'] = data.progress;
+
+                    setTimeout(function() {
+                        $('#myModal').modal('hide');
+                    }, 1000);
+                }
+
+            })
+            .error(function(error) {
+                console.log("The member with first-name - " + name + " couldnot be fetched. Please contact Admin.");
+                $('#myModal').modal('hide');
+                alert("The member with first-name - " + name + " couldnot be fetched. Please contact Admin.");
+            }).finally(function() {
+                console.log('memberEdit method call finished');
+            });
+
+
     }
 
     $scope.isLastInner = function(id) {
