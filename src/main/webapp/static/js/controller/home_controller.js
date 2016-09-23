@@ -21,6 +21,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
     $scope.MCEPaginationEnd = 0;
     var MCEStep = 10; // need to change along with backend
     $scope.memberPaginationList = [];
+
     $scope.pkgCount = 0;
     $scope.pkPaginationStrt = 0;
     $scope.pkPaginationEnd = 0;
@@ -33,6 +34,14 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
     $scope.memberPaginationEnd = 0;
     var memberStep = 10; // need to change along with backend
     $scope.memberPaginationList = [];
+
+    //expiring members list
+    var memberExpCurrentPage = 1;
+    $scope.memberexpCount = 0;
+    $scope.memberexpPaginationStrt = 0;
+    $scope.memberexpPaginationEnd = 0;
+    var memberExpStep = 10; // need to change along with backend
+    $scope.memberexpPaginationList = [];
 
     $scope.brMap = new Map();
     $scope.secMap = new Map();
@@ -147,10 +156,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             o1['id'] = j;
 
             $scope.memberPaginationList.push(o1);
-
         }
-
-        //pkgCurrentPage = 1;
     }
 
     $scope.isMemberPaginationActive = function(id) {
@@ -1275,7 +1281,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     $scope.submitMCEAdd = function(){
         console.log(JSON.stringify($scope.addMCE));
-        if ($scope.addMCE.discount && $scope.addMCE.top_up && $scope.pkg_associate_dt.date) {
+        if (($scope.addMCE.discount || $scope.addMCE.discount == 0 ) && ($scope.addMCE.top_up || $scope.addMCE.top_up == 0 ) && $scope.pkg_associate_dt.date) {
 
             $('#myModal').modal('show');
             var obj = {};
@@ -1499,8 +1505,45 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
     }
 
     //Arka - Shalmoli
+    $scope.addProgressModelChange = function(){
+        $scope.addProgressFlag = true;
+    }
+
+    $scope.progressTextAddSubmit = function(){
+        $scope.addProgressFlag = false;
+        var obj = {};
+        obj['package_mem_entity_id'] = $scope.progress_parent_id;
+        obj['text'] = $scope.progressObj.text;
+
+        HomeFactory.progressadd(obj)
+            .success(function(data) {
+                //create the map and assign the first basic -- for this create a function
+                var code = data.code;
+                if (code != 0) {
+                    //$('#myModal').modal('hide');
+                    alert("Be prepared nothing will work. Please contact Admin.");
+                } else {
+                    //$scope.progressObj = {};
+                    $scope.progressTextAddCancel();
+                    $scope.package_assoc_details($scope.progress_parent_id,$scope.pkgDetailsAssData['package_name']);
+
+                }
+
+            })
+            .error(function(error) {
+                console.log("Error adding the progress text");
+                $scope.progressTextAddCancel();
+                alert("Be prepared nothing will work. Please contact Admin.");
+            }).finally(function() {
+                console.log('progressTextAddSubmit method call finished');
+            });
+
+
+    }
+
     $scope.openProgressModal = function(){
         $scope.progressObj = {};
+        $scope.addProgressFlag = false;
         $('#progressModal').modal(
         {
              backdrop: 'static',
@@ -1516,6 +1559,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     $scope.progressTextAddReset = function(){
         $scope.progressObj = {};
+        $scope.addProgressFlag = false;
     }
 
     $scope.isProgressRow = function(id){
@@ -1567,6 +1611,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
                     alert("The package association with name - " + name + " couldnot be fetched. Please contact Admin.");
                 } else {
                     $scope.pkg_assoc_id = -1;
+                    $scope.progress_parent_id = id;
                     $scope.pkg_assoc_flag = false;
                     $scope.innercrumbList = [];
                     $scope.innercrumbList.push({
@@ -1718,6 +1763,135 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             });
     }
 
+    //Shalmoli
+
+    $scope.paginateexpMember = function(id) {
+        memberExpCurrentPage = id;
+        //$scope.memberObject['step'] = memberCurrentPage;
+
+        $('#myModal').modal('show');
+        callMembersExp();
+    }
+
+    $scope.isMemberexpPrevNextDisabled = function(str) {
+        if (str == 'previous') {
+            if (memberExpCurrentPage <= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (str == 'next') {
+            if (memberExpCurrentPage * memberExpStep >= $scope.memberexpCount) {
+                return true;
+            } else {
+                return false;
+            }
+        } else
+            return false;
+
+    }
+
+    $scope.member_exp_prev_next = function(str) {
+        if (str == 'previous')
+            $scope.paginateexpMember(memberExpCurrentPage - 1);
+        else if (str == 'next')
+            $scope.paginateexpMember(memberExpCurrentPage + 1);
+    }
+
+    $scope.isOddMemberExp = function(id) {
+        var elementPos = $scope.memberexpList.map(function(x) {
+            return x.id;
+        }).indexOf(id);
+        if (elementPos % 2 == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    var fixMemberexpPagnStrEnd = function() {
+        $scope.memberexpPaginationStrt = (memberExpCurrentPage - 1) * memberExpStep + 1;
+        $scope.memberexpPaginationEnd = memberExpCurrentPage * memberExpStep;
+
+        if ($scope.memberexpPaginationEnd > $scope.memberexpCount) {
+            $scope.memberexpPaginationEnd = $scope.memberexpCount;
+        }
+    }
+
+    var setUpMemberExpPagination = function() {
+        var i = -1;
+        if ($scope.memberexpCount == 0) {
+            i = 0;
+            $scope.memberexpPaginationStrt = 0;
+            $scope.memberexpPaginationEnd = 0;
+        } else if ($scope.memberexpCount % memberExpStep == 0) {
+            i = $scope.memberexpCount / memberExpStep;
+            fixMemberexpPagnStrEnd();
+        } else {
+            i = ($scope.memberexpCount / memberExpStep) + 1;
+            fixMemberexpPagnStrEnd();
+        }
+        $scope.memberexpPaginationList = [];
+        for (var j = 1; j <= i; j++) {
+            var o1 = {};
+            o1['id'] = j;
+
+            $scope.memberexpPaginationList.push(o1);
+        }
+    }
+
+    $scope.isMemberexpPaginationActive = function(id) {
+        if (memberExpCurrentPage == id)
+            return true;
+        else
+            return false;
+    }
+
+
+    var initMemberExpSearch = function() {
+        $scope.memberexpPaginationList = [];
+        memberExpCurrentPage = 1;
+    }
+
+    var callMembersExp = function() {
+        var obj = {};
+        obj['step'] = memberExpCurrentPage;
+        HomeFactory.getmembersexp(obj)
+            .success(function(data) {
+                //create the map and assign the first basic -- for this create a function
+                var code = data.code;
+                if (code != 0) {
+                    $('#myModal').modal('hide');
+                    alert("Be prepared nothing will work. Please contact Admin.");
+                } else {
+                    $scope.memberexpList = data.members;
+                    $scope.memberexpCount = data.count;
+                    //setUpPkgPagination();
+                    setUpMemberExpPagination();
+                    setTimeout(function() {
+                        $('#myModal').modal('hide');
+                    }, 500);
+                }
+
+            })
+            .error(function(error) {
+                console.log("Error fetching the members list");
+                $('#myModal').modal('hide');
+                alert("Be prepared nothing will work. Please contact Admin.");
+            }).finally(function() {
+                console.log('callMembersExp method call finished');
+            });
+    }
+
+
+    var getExpMembers = function() {
+        //$scope.searchMember = false;
+        initMemberExpSearch();
+        $('#myModal').modal('show');
+
+        callMembersExp();
+    }
+
     var initPage = function(id) {
         if (id == 1 || id == 2) {
             //$scope.pkgSearch();
@@ -1730,19 +1904,39 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             $('#pkg1').val("");
             $("#pkg3").val("");
             getMembers();
+        }else if(id == 14 || id == 15){
+            getExpMembers();
         }
     }
 
     function brcrClickFn(id) {
         $('#myModal').modal('show');
-        var obj = $scope.secMap.get(id);
-        setbrList(obj['brId']);
-        $scope.currentPage = $scope.map[obj['inculdeId']];
-        initPage(id);
-        //$scope.crumbList = [];
-        setTimeout(function() {
-            $('#myModal').modal('hide');
-        }, 1000);
+        if(id == 14 || id == 15){
+            $scope.crumbList = [];
+            id = 14;
+            $scope.crumbList.push({
+                'id': 15,
+                'value': 'Dashboard'
+            },
+            {
+                'id': 14,
+                'value': 'Members Whose Subscription Expiring'
+            });
+            initPage(id);
+            $scope.currentPage = $scope.map[id];
+            console.log($scope.currentPage);
+
+        }else{
+            var obj = $scope.secMap.get(id);
+            setbrList(obj['brId']);
+            $scope.currentPage = $scope.map[obj['inculdeId']];
+            initPage(id);
+            //$scope.crumbList = [];
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 1000);
+
+        }
     }
 
     function clickURL(id) {

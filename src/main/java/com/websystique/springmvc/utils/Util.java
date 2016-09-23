@@ -90,7 +90,7 @@ public class Util {
             String user = "username=" + "arka.dutta@binaryworkers.com";
             String hash = "&hash=" + "8f3f9d872d9f57720938250efdc6edc4a0aad2f1";
             String message = "&message=" + smsMessage;
-            String sender = "&sender=" + "TXTLCL";
+            String sender = "&sender=" + "HULKFC";
             String numbers = "&numbers=" + number;
 
             // Send data

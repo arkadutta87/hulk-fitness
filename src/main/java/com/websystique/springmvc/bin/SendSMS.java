@@ -22,8 +22,8 @@ public class SendSMS {
 
     public static void main(String[] args){
 
-        //System.out.println(sendSms());
-        printDateDiff();
+        System.out.println(sendSms());
+        //printDateDiff();
     }
 
     private static void printDateDiff(){
@@ -137,10 +137,10 @@ public class SendSMS {
             // Construct data
             String user = "username=" + "arka.dutta@binaryworkers.com";
             String hash = "&hash=" + "8f3f9d872d9f57720938250efdc6edc4a0aad2f1";
-            String message = "&message=" + "Hello Shalmoli Dutta you are enrolled to the Puja Bumper Package on 13th September, 2016. Your member is 01 , " +
-                    "please mention this while correspondence.";
-            String sender = "&sender=" + "TXTLCL";
-            String numbers = "&numbers=" + "919742019093";
+            String message = "&message=" +"your dynamic otp is 3245678953"; //"&message=" + "Hello Shalmoli Dutta you are enrolled to the Puja Bumper Package on 13th September, 2016. Your member is 01 , " +
+                    //"please mention this while correspondence.";
+            String sender = "&sender=" + "HULKFC";
+            String numbers = "&numbers=" + "9742019093";
 
             // Send data
             HttpURLConnection conn = (HttpURLConnection) new URL("http://api.textlocal.in/send/?").openConnection();

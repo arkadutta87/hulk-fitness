@@ -139,12 +139,11 @@
 								<li>
 								    <a class="js_home_menu_link">
                                         <i class="fa fa-home"></i>
-                                        Home
+                                        Dashboard
                                         <span class="fa fa-chevron-down"></span>
 								    </a>
 									<ul class="nav child_menu">
-										<li><a href="#">Dashboard</a></li>
-										<li><a href="#">Dashboard2</a></li>
+										<li><a href="#" ng-click="ctrl.brcrClick(14)">Members Subscription</a></li>
 									</ul>
 								</li>
 								<li>
@@ -252,13 +251,13 @@
                             Text:
                             <br/>
                             <textarea id="packageDetails" required="required" name="packageDetails"
-                                      class="form-control " rows="7" ng-model="progressObj.text" ></textarea>
+                                      class="form-control " rows="7" ng-model="progressObj.text" ng-change="addProgressModelChange()" ></textarea>
                         </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 text-center">
-                                <button id="send" type="submit" class="btn btn-success" >Submit</button>
-                                <button class="btn btn-primary" ng-click="progressTextAddReset()">Reset</button>
+                                <button id="send" type="submit" class="btn btn-success"  ng-disabled="!addProgressFlag" ng-click="progressTextAddSubmit()">Submit</button>
+                                <button class="btn btn-primary" ng-click="progressTextAddReset()" ng-disabled="!addProgressFlag">Reset</button>
                                 <button class="btn btn-warning" ng-click="progressTextAddCancel()" >Cancel</button>
                             </div>
                         </div>

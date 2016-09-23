@@ -165,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
 
         //String hql = "from Package u where ";//where u.username=:unameStr and u.password=:pwdStr";
         Criteria query = session.createCriteria(Member.class);
-        countQuery.add(Restrictions.le("latest_pkg_expiry", date));
+        query.add(Restrictions.le("latest_pkg_expiry", date));
 
         //sort based on updation_date
 
@@ -506,8 +506,8 @@ public class MemberServiceImpl implements MemberService {
         Session session = getCurrentSession();
         Criteria query = session.createCriteria(CustomerPackageEntity.class);
         query.add(Restrictions.eq("id", id));
-        query.createAlias("progressUnit", "c");
-        query.addOrder(Order.desc("c.entry_date"));
+        //query.createAlias("progressUnit", "c");
+        //query.addOrder(Order.desc("c.entry_date"));
 
         List<CustomerPackageEntity> objects = query.list();
         if (objects != null && !objects.isEmpty()) {
@@ -528,7 +528,16 @@ public class MemberServiceImpl implements MemberService {
             obj.setPackage_name(pkg.getName());
             obj.setPackage_details(pkg.getPackageDetails());
 
-            Set<MemberPackageProgressEntity> lst = aObj.getProgressUnit();
+            //Set<MemberPackageProgressEntity> lst = aObj.getProgressUnit();
+            query = session.createCriteria(MemberPackageProgressEntity.class);
+            //query.add(Restrictions.eq("id", id));
+            query.createAlias("updateText", "c");
+            query.add(Restrictions.eq("c.id", aObj.getId()));
+            query.addOrder(Order.desc("entry_date"));
+
+
+            List<MemberPackageProgressEntity> lst = query.list();
+
             List<ProgressBlock> progress = new ArrayList<ProgressBlock>();
 
             for (MemberPackageProgressEntity obj1 : lst) {

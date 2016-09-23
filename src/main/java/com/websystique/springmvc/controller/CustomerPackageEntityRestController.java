@@ -305,7 +305,7 @@ public class CustomerPackageEntityRestController {
     }
 
     //to be expired packages members list
-    @RequestMapping(value = "/index/home/memberexpired/list/", method = RequestMethod.POST)
+    @RequestMapping(value = "/index/home/membersubscriptionexpired/list/", method = RequestMethod.POST)
     public ResponseEntity<MemberResponse> listMemberExpiry(@RequestBody MemberExpiredRequest request) {
         System.out.println(" --- Inside list memberexpired call ---- ");
         MemberResponse response = new MemberResponse();

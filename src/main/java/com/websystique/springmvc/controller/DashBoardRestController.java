@@ -40,7 +40,7 @@ public class DashBoardRestController {
     private static final String ACCOUNT_DEACTIVATED = "The account has been deactivated. Contact your administrator";
 
     private static final int PAGE_COUNT = 10;
-    private static final boolean sendSMSFlag = false;
+    private static final boolean sendSMSFlag = true;
 
     @RequestMapping(value = "/index/home/initialize/", method = RequestMethod.GET)
     public ResponseEntity<URLObjContainer> initializeURL() {
@@ -547,6 +547,10 @@ public class DashBoardRestController {
                     DataConversion.convertMemberModelToMemberCRUDRes(aMem, response);
 
                     ///send sms to phone number
+                    /*
+                    Hi %%|name^{"inputtype" : "text", "maxlength" : "70"}%% you have been added as a member of Hulk Fitness Club. Your membership number is --
+                    %%|memid^{"inputtype" : "text", "maxlength" : "30"}%%. This mobile number have been registered with us, use this for further correspondence.
+                     */
                     String message = "Hi "+aMem.getFirstName() + " " + aMem.getLastName() + " you have been added as a member of Hulk Fitness Club." +
                             " Your membership number is --  "+aMem.getId() + ". This mobile number have been registered with us, use this for " +
                             "further correspondence.";

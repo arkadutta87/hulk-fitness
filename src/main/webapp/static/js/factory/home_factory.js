@@ -17,6 +17,8 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
 	var PKG_MEMBER_DELETE = '../home/customerpackageentity/delete/';
 	var PKG_MEMBER_ADD = '../home/customerpackageentity/add/';
 	var PKG_MEMBER_READ = '../home/customerpackageentity/read/';
+	var PROGRESS_ADD = '../home/memberpackageprogressentity/add/';
+	var MEMBERS_EXP_URL = '../home/membersubscriptionexpired/list/';
 	return {
 
 		logout : function(a) {
@@ -73,7 +75,14 @@ angular.module('homeApp').factory('HomeFactory', function($http) {
         },
         readpkgmember : function(a) {
             return $http.post(PKG_MEMBER_READ, a);
-        }
+        },
 
+        progressadd : function(a) {
+            return $http.post(PROGRESS_ADD, a);
+        },
+
+        getmembersexp : function(a) {
+            return $http.post(MEMBERS_EXP_URL, a);
+        }
 	}
 });
