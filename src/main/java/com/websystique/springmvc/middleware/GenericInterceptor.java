@@ -103,6 +103,28 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
         } else {
 
             Cookie[] cookies = request.getCookies();
+            if(cookies == null){
+                if (uri.equals(INDEX_URL)) {
+                    return true;
+                } else if (uri.equals(DASHBOARD_URL)) {
+                    //redirect him to index url
+                    response.sendRedirect(INDEX_URL);
+                    //return false;
+                } else {
+                    //any other url send the {code : 11 , message : You are trying to hack in ,redirectURL : '/epme/index/'}
+                    HackResponse res = new HackResponse();
+                    res.setCode(11);
+                    res.setMessage("You are trying to hack in. Better luck next time");
+                    res.setRedirectURL(INDEX_URL);
+
+                    String json = Util.convertToJSON(res);
+                    response.setContentType("text/x-json;charset=UTF-8");
+                    response.setHeader("Cache-Control", "no-cache");
+                    response.getWriter().write(json);
+                    //json.write(response.getWriter());
+                    //return true;
+                }
+            }
             String sessionId = "";
 
             for (Cookie ck : cookies) {
