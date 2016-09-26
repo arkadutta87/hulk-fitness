@@ -581,7 +581,12 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
                 var code = data.code;
                 if (code != 0) {
                     $('#myModal').modal('hide');
-                    alert("The package couldnot be deleted. Please contact Admin.");
+                    if(code == 7){
+                        alert(data.message);
+                    }else{
+                        alert("The package couldnot be deleted. Please contact Admin.");
+                    }
+
                 } else {
                     initPage(2);
                     //alert("The Package with id - "+id + " deleted");

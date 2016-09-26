@@ -41,4 +41,6 @@ public interface MemberService {
 
     public CustomerPackageEntityReadResponse getCustomerPackageEntityReadResponse(long id);
 
+    public CustomerPackageEntity getCustomerPackageEntityFromPkgId(long pkgId);
+
 }

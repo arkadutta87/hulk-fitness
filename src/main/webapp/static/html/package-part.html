@@ -88,7 +88,7 @@
                     <tr ng-cloak role="row" ng-repeat="aPkg in MCEList" ng-class="isOddMCE(aPkg.id)? 'odd' : 'even'">
                         <td tabindex="0" class="sorting_1"><a href="#" ng-click="package_assoc_details(aPkg.id,aPkg.pkg_name)"
                                                               class="member_list_name">{{aPkg.pkg_name}}</a></td>
-                        <td>{{aPkg.final_price}}</td>
+                        <td>₹ {{aPkg.final_price}}</td>
                         <td>{{aPkg.enrollment_date}}</td>
                         <td>
                             <div class="progress progress_sm">

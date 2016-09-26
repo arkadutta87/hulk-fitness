@@ -102,8 +102,9 @@ public class DataConversion {
 
         //price formatter
         double money = pkg.getPrice();
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        String moneyString = formatter.format(money);
+        DecimalFormat df2 = new DecimalFormat("#.00");
+        //NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String moneyString = df2.format(money);
         System.out.println(moneyString);
         pl.setPrice(moneyString);
 

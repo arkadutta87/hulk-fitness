@@ -96,7 +96,7 @@
                                   ng-class="aPkg.trial ? 'glyphicon glyphicon-ok pwd_tick_icon' : 'glyphicon glyphicon-minus pwd_remove_icon'"
                                   aria-hidden="true"></span></td>
                         <td>{{aPkg.duration}}</td>
-                        <td>{{aPkg.price}}</td>
+                        <td>₹ {{aPkg.price}}</td>
                         <td><a ng-click="pkgAssociationPlus(aPkg.id)" href="#" class="btn  btn-xs"
                                ng-class="pkgAssociationCSS(aPkg.id) ? 'btn-success' : 'btn-danger'">
                             <i ng-class=" pkgAssociationCSS(aPkg.id)? 'glyphicon glyphicon-plus' : 'glyphicon glyphicon-remove' "></i>

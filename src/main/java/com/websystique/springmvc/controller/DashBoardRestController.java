@@ -36,6 +36,7 @@ public class DashBoardRestController {
     private static final String REQUEST_DATA_ABSENT = "All fields in request not present";
     private static final String INTERNAL_SERVER_ERROR = "Internal Server Error. Contact your administrator";
     private static final String DATA_NOT_PRESENT = "No data present";
+    private static final String PKG_ASSOCIATED_WITH_MEMBER = "Package already associated with a memeber . Thus cannot be deleted.";
     private static final String SUCCESS = "success";
     private static final String ACCOUNT_DEACTIVATED = "The account has been deactivated. Contact your administrator";
 
@@ -181,17 +182,25 @@ public class DashBoardRestController {
                     response.setCode(5);
                     response.setMessage(DATA_NOT_PRESENT);
                 } else {
-                    pkg.setUpdatedBy(user.getUsername());
-                    pkg.setUpdatedOn(new Date());
-                    pkg.setEnabled(false);
-                    try {
-                        packageService.updatePackage(pkg);
-                        response.setCode(0);
-                        response.setMessage(SUCCESS);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        response.setCode(3);
-                        response.setMessage(INTERNAL_SERVER_ERROR);
+                    //check whether the package is already associated with a member or not
+                    CustomerPackageEntity obj1 = memberService.getCustomerPackageEntityFromPkgId(pkg.getId());
+                    if(obj1 != null){
+                        System.out.println(" ---- delete package : This package is already associated with a member thus deletion not possible. ---- ");
+                        response.setCode(7);
+                        response.setMessage(PKG_ASSOCIATED_WITH_MEMBER);
+                    }else{
+                        pkg.setUpdatedBy(user.getUsername());
+                        pkg.setUpdatedOn(new Date());
+                        pkg.setEnabled(false);
+                        try {
+                            packageService.updatePackage(pkg);
+                            response.setCode(0);
+                            response.setMessage(SUCCESS);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            response.setCode(3);
+                            response.setMessage(INTERNAL_SERVER_ERROR);
+                        }
                     }
                 }
 

@@ -314,7 +314,7 @@ public class CustomerPackageEntityRestController {
             response.setMessage(REQUEST_DATA_ABSENT);
         }else{
             int step = request.getStep();
-            int timeExpiry = 15;//days
+            int timeExpiry = 7;//days
             MemberPaginationObject obj = memberService.getMember(step,PAGE_COUNT_SEC,timeExpiry);
             if (obj == null) {
                 response.setCode(5);

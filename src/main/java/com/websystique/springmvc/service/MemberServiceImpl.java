@@ -316,6 +316,24 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    public CustomerPackageEntity getCustomerPackageEntityFromPkgId(long pkgId){
+        Session session = getCurrentSession();
+        Criteria query = session.createCriteria(CustomerPackageEntity.class);
+        Criterion q11 = Restrictions.eq("package_id", pkgId);
+        query.add(q11);
+        query.add(Restrictions.eq("isEnabled", true));
+
+        query.setFirstResult(0);
+        query.setMaxResults(2);
+        List<CustomerPackageEntity> objects = query.list();
+        if (objects != null && !objects.isEmpty()) {
+            CustomerPackageEntity aObj = objects.get(0);
+            return aObj;
+        } else {
+            return null;
+        }
+    }
+
     private String convertToStrDate(Date obj) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");//yyyy-MM-dd HH:mm:ss.S
