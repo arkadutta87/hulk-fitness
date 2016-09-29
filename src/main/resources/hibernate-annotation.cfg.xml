@@ -15,5 +15,10 @@
 
         <mapping class="com.websystique.springmvc.model.AppUser"/>
         <mapping class="com.websystique.springmvc.model.Session"/>
+        <mapping class="com.websystique.springmvc.model.Member"/>
+        <mapping class="com.websystique.springmvc.model.CustomerPackageEntity"/>
+        <mapping class="com.websystique.springmvc.model.Address"/>
+        <mapping class="com.websystique.springmvc.model.MemberPackageProgressEntity"/>
+        <mapping class="com.websystique.springmvc.model.ReviewRating"/>
     </session-factory>
 </hibernate-configuration>
