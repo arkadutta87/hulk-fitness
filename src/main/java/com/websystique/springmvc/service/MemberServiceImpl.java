@@ -137,6 +137,7 @@ public class MemberServiceImpl implements MemberService {
 
         Criteria countQuery = session.createCriteria(Member.class);
         countQuery.add(Restrictions.le("latest_pkg_expiry", date));
+        countQuery.add(Restrictions.ge("latest_pkg_expiry", currDt));
 
         //countQuery.add(Restrictions.eq("isEnabled",true));
         countQuery.setProjection(Projections.rowCount());

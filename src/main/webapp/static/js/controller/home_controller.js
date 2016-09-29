@@ -1177,7 +1177,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
     }
 
 
-    var fixMemberPagnStrEnd = function() {
+    var fixMCEPagnStrEnd = function() {
         $scope.MCEPaginationStrt = (step3 - 1) * memberStep + 1;
         $scope.MCEPaginationEnd = step3 * memberStep;
 
@@ -1194,10 +1194,10 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
             $scope.MCEPaginationEnd = 0;
         } else if ($scope.MCECount % memberStep == 0) {
             i = $scope.MCECount / memberStep;
-            fixMemberPagnStrEnd();
+            fixMCEPagnStrEnd();
         } else {
             i = ($scope.MCECount  / memberStep) + 1;
-            fixMemberPagnStrEnd();
+            fixMCEPagnStrEnd();
         }
         $scope.MCEPaginationList = [];
         for (var j = 1; j <= i; j++) {
