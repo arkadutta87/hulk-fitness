@@ -385,8 +385,10 @@ public class DashBoardRestController {
                     //mem.setCreated_on(new Date());
                     mem.setUpdated_on(new Date());
                     mem.setUpdatedBy(user.getUsername());
-                    mem.setFirstName(request.getFirstName() == null ? mem.getFirstName(): request.getFirstName());
-                    mem.setLastName(request.getLastName() == null ? mem.getLastName() : request.getLastName());
+                    String firstName = request.getFirstName() == null ? mem.getFirstName() : Util.titliCaseString(request.getFirstName());
+                    mem.setFirstName(firstName);
+                    String lastName = request.getLastName() == null ? mem.getLastName() : Util.titliCaseString(request.getLastName());
+                    mem.setLastName(lastName);
                     mem.setEmail(request.getEmail() == null ? mem.getEmail() : request.getEmail());
                     mem.setMobile(request.getMobile() == null ? mem.getMobile() : request.getMobile());
                     //mem.setProfile_pic_url("/epme/static/images/picture.jpg");
@@ -467,6 +469,7 @@ public class DashBoardRestController {
         return new ResponseEntity<MemberCRUDResponse>(response, HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/index/home/member/add/", method = RequestMethod.POST)
     public ResponseEntity<MemberCRUDResponse> addMember(@RequestBody MemberAddEditRequest request, HttpServletRequest request2) {
         System.out.println(" --- Inside add member post method ---- ");
@@ -490,8 +493,10 @@ public class DashBoardRestController {
                 aMem.setCreated_on(new Date());
                 aMem.setUpdated_on(new Date());
                 aMem.setUpdatedBy(user.getUsername());
-                aMem.setFirstName(request.getFirstName() == null ? "" : request.getFirstName());
-                aMem.setLastName(request.getLastName() == null ? "" : request.getLastName());
+                String firstName = request.getFirstName() == null ? "" : Util.titliCaseString(request.getFirstName());
+                aMem.setFirstName(firstName);
+                String lastName = request.getLastName() == null ? "" : Util.titliCaseString(request.getLastName());
+                aMem.setLastName(lastName);
                 aMem.setEmail(request.getEmail() == null ? "" : request.getEmail());
                 aMem.setMobile(request.getMobile() == null ? "" : request.getMobile());
                 aMem.setProfile_pic_url("/epme/static/images/picture.jpg");

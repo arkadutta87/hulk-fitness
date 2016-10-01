@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by arkadutta on 17/08/16.
@@ -201,6 +202,21 @@ public class Util {
 
         return adt1;
 
+    }
+
+    public static String titliCaseString(String str){
+        String temp = str.trim();
+        //temp = temp.trim();
+        String str1 = "";
+
+        String[] arr = temp.split(" ");
+        for(String aStr : arr){
+            if(aStr.trim().equals(""))
+                continue;
+            str1 = str1 + " " + StringUtils.capitalize(aStr.trim().toLowerCase());
+        }
+
+        return str1.trim();
     }
 
     public static int printDateDiff(Date dt1 ,Date dt2){
