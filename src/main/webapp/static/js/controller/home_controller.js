@@ -1303,8 +1303,14 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
                     var code = data.code;
                     if (code != 0) {
                         //$scope.addPkgObj = {};
-                        $('#myModal').modal('hide');
-                        alert("The Package Member Association Entity  - couldnot be added. Please contact Admin.");
+                        if(code == 7){
+                           $('#myModal').modal('hide');
+                           alert(data.message);
+                        }else{
+                            $('#myModal').modal('hide');
+                            alert("The Package Member Association Entity  - couldnot be added. Please contact Admin.");
+                        }
+
                     } else {
 
                         profileFlag2 = false;

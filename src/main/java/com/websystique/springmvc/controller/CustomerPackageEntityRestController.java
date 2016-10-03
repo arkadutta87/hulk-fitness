@@ -170,77 +170,86 @@ public class CustomerPackageEntityRestController {
                     String phoneNumber = aMem.getMobile();
 
                     double price1 = aPkg.getPrice();
-                    double discount_percentage = request.getDiscount_percentage();
+                    double discount_percentage = request.getDiscount_percentage();//its absolute value so chill.
 
                     //final price
-                    double price2 = Util.calculatePrice(price1, discount_percentage);
-
-                    //expiration_date calculation
-                    String durationUnit = aPkg.getDurationUnit();
-                    double durationValue = aPkg.getDurationValue();
-
-                    String enrollmentDateStr = request.getPackage_enrollment_date();
-                    int topUpDays = request.getTop_up_time();
-
-                    Date expirationDate = null;
-
-                    try {
-                        expirationDate = Util.calculatePkgMemEntityExpirationDate(durationUnit, durationValue,
-                                enrollmentDateStr, topUpDays);
-                    } catch (PackageMemberEntityException e) {
-                        System.out.println(e);
-                    }
-
-                    if (expirationDate == null) {
-                        response.setCode(6);
-                        response.setMessage(INTERNAL_SERVER_ERROR);
+                    double price2 = price1 - discount_percentage;//Util.calculatePrice(price1, discount_percentage);
+                    if (price2 <= 0) {
+                        System.out.print("The price after discount is going into negative");
+                        response.setCode(7);
+                        response.setMessage("Price is becoming negative which is not allowed");
                     } else {
-                        //save package entity
-                        CustomerPackageEntity custObj = new CustomerPackageEntity();
-                        custObj.setEnabled(true);
-                        custObj.setCreated_on(new Date());
-                        custObj.setUpdated_on(new Date());
-                        custObj.setUpdatedBy(user.getUsername());
-                        custObj.setDiscount_percentage(discount_percentage);
-                        custObj.setFinal_price(price2);
-                        custObj.setMember_id(memId);
-                        custObj.setPackage_id(pkgId);
-                        custObj.setTop_up_time(topUpDays);
+                        //expiration_date calculation
+                        String durationUnit = aPkg.getDurationUnit();
+                        double durationValue = aPkg.getDurationValue();
 
-                        Date dt = null;
+                        String enrollmentDateStr = request.getPackage_enrollment_date();
+                        int topUpDays = request.getTop_up_time();
 
+                        Date expirationDate = null;
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
                         try {
-                            dt = simpleDateFormat.parse(enrollmentDateStr);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            //throw new PackageMemberEntityException(e.getMessage());
-                        }
-                        custObj.setPackage_enrollment_date(dt);
-                        custObj.setPackage_expiry_date(expirationDate);
-
-                        memberService.saveCustomerPackageEntity(custObj);
-
-                        System.out.println("Expiration date --- #### -- "+expirationDate);
-                        Date expiryDt = aMem.getLatest_pkg_expiry();
-                        if (Util.printDateDiff(expirationDate, expiryDt) < 0) {
-                            //update memeber
-                            aMem.setLatest_pkg_expiry(expirationDate);
-                            aMem.setUpdated_on(new Date());
-                            aMem.setUpdatedBy(user.getUsername());
-                            memberService.editMember(aMem);
+                            expirationDate = Util.calculatePkgMemEntityExpirationDate(durationUnit, durationValue,
+                                    enrollmentDateStr, topUpDays);
+                        } catch (PackageMemberEntityException e) {
+                            System.out.println(e);
                         }
 
-                        String message = "Hi "+aMem.getFirstName() + " " + aMem.getLastName() + " esteemed member of Hulk Fitness Club." +
-                                " You have opted for the package --  "+aPkg.getName() + ". Your package enrollment date is -- "
-                                +simpleDateFormat.format(dt) + " and expiry date is --  "+simpleDateFormat.format(expirationDate);
-                        if(sendSMSFlag){
-                            Util.sendSMS(phoneNumber, message);
+                        if (expirationDate == null) {
+                            response.setCode(6);
+                            response.setMessage(INTERNAL_SERVER_ERROR);
+                        } else {
+                            //save package entity
+                            CustomerPackageEntity custObj = new CustomerPackageEntity();
+                            custObj.setEnabled(true);
+                            custObj.setCreated_on(new Date());
+                            custObj.setUpdated_on(new Date());
+                            custObj.setUpdatedBy(user.getUsername());
+                            custObj.setDiscount_percentage(discount_percentage);
+                            custObj.setFinal_price(price2);
+                            custObj.setMember_id(memId);
+                            custObj.setPackage_id(pkgId);
+                            custObj.setTop_up_time(topUpDays);
+
+                            Date dt = null;
+
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+
+                            try {
+                                dt = simpleDateFormat.parse(enrollmentDateStr);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //throw new PackageMemberEntityException(e.getMessage());
+                            }
+                            custObj.setPackage_enrollment_date(dt);
+                            custObj.setPackage_expiry_date(expirationDate);
+
+                            memberService.saveCustomerPackageEntity(custObj);
+
+                            System.out.println("Expiration date --- #### -- " + expirationDate);
+                            Date expiryDt = aMem.getLatest_pkg_expiry();
+                            if (Util.printDateDiff(expirationDate, expiryDt) < 0) {
+                                //update memeber
+                                aMem.setLatest_pkg_expiry(expirationDate);
+                                aMem.setUpdated_on(new Date());
+                                aMem.setUpdatedBy(user.getUsername());
+                                memberService.editMember(aMem);
+                            }
+
+                            String message = "Hi " + aMem.getFirstName() + " " + aMem.getLastName() + " esteemed member of Hulk Fitness Club." +
+                                    " You have opted for the package --  " + aPkg.getName() + ". Your package enrollment date is -- "
+                                    + simpleDateFormat2.format(dt) + " and expiry date is --  " + simpleDateFormat2.format(expirationDate);
+                            if (sendSMSFlag) {
+                                Util.sendSMS(phoneNumber, message);
+                            }
+
+                            response.setCode(0);
+                            response.setMessage(SUCCESS);
                         }
 
-                        response.setCode(0);
-                        response.setMessage(SUCCESS);
+
                     }
 
                 }
@@ -309,13 +318,13 @@ public class CustomerPackageEntityRestController {
     public ResponseEntity<MemberResponse> listMemberExpiry(@RequestBody MemberExpiredRequest request) {
         System.out.println(" --- Inside list memberexpired call ---- ");
         MemberResponse response = new MemberResponse();
-        if (request == null || request.getStep() <= 0 ) {
+        if (request == null || request.getStep() <= 0) {
             response.setCode(4);
             response.setMessage(REQUEST_DATA_ABSENT);
-        }else{
+        } else {
             int step = request.getStep();
             int timeExpiry = 7;//days
-            MemberPaginationObject obj = memberService.getMember(step,PAGE_COUNT_SEC,timeExpiry);
+            MemberPaginationObject obj = memberService.getMember(step, PAGE_COUNT_SEC, timeExpiry);
             if (obj == null) {
                 response.setCode(5);
                 response.setMessage(DATA_NOT_PRESENT);
@@ -334,19 +343,19 @@ public class CustomerPackageEntityRestController {
     public ResponseEntity<CustomerPackageEntityReadResponse> readCustomerPackageEntity(@RequestBody CustomerPackageEntityReadRequest request) {
         System.out.println(" --- Inside read customerpackageentity call ---- ");
         CustomerPackageEntityReadResponse response = new CustomerPackageEntityReadResponse();
-        if (request == null || request.getId() <= 0 ) {
+        if (request == null || request.getId() <= 0) {
             response.setCode(4);
             response.setMessage(REQUEST_DATA_ABSENT);
-        }else{
+        } else {
             long id = request.getId();
             response = memberService.getCustomerPackageEntityReadResponse(id);
 
-            if(response == null){
+            if (response == null) {
                 response = new CustomerPackageEntityReadResponse();
                 response.setCode(4);
                 response.setMessage(REQUEST_DATA_ABSENT);
                 System.out.println("Its a hack attempt. Inside read customerpackageentity call");
-            }else{
+            } else {
                 response.setCode(0);
                 response.setMessage(SUCCESS);
 
