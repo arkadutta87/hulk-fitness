@@ -476,7 +476,7 @@ public class DashBoardRestController {
         MemberCRUDResponse response = new MemberCRUDResponse();
         if (request == null || request.getFirstName() == null ||
                 request.getFirstName().trim().isEmpty() || request.getId() != 0
-                || request.getPinCode() == 0 || request.getCity() == null || request.getState() == null ||
+                || request.getCity() == null || request.getState() == null ||
                 request.getLineOne() == null || request.getLineOne().trim().isEmpty()) {
             response.setCode(4);
             response.setMessage(REQUEST_DATA_ABSENT);
@@ -545,9 +545,9 @@ public class DashBoardRestController {
                 addr.setLineOne(request.getLineOne() == null ? "" : request.getLineOne());
                 addr.setLineTwo(request.getLineTwo() == null ? "" : request.getLineTwo());
                 addr.setPinCode(request.getPinCode() == 0 ? 700120 : request.getPinCode());
-                addr.setCity(request.getCity() == null ? "Kolkata".toLowerCase() : request.getCity().toLowerCase());
-                addr.setState(request.getState() == null ? "west bengal" : request.getState().toLowerCase());
-                addr.setCountry(request.getCountry() == null ? "india" : request.getCountry().toLowerCase());
+                addr.setCity(request.getCity() == null || request.getCity().trim().isEmpty() ? "Kolkata".toLowerCase() : request.getCity().toLowerCase());
+                addr.setState(request.getState() == null || request.getState().trim().isEmpty()? "west bengal" : request.getState().toLowerCase());
+                addr.setCountry(request.getCountry() == null || request.getCountry().trim().isEmpty() ? "india" : request.getCountry().toLowerCase());
                 addr.setCreated_on(new Date());
                 addr.setUpdated_on(new Date());
                 addr.setUpdatedBy(user.getUsername());

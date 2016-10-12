@@ -795,22 +795,21 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
         obj['email'] = $scope.addMemObj.email ? $scope.addMemObj.email.trim() : '' ;
         obj['mobile'] = $scope.addMemObj.mobile.trim();
         obj['alternateMobile'] = $scope.addMemObj.altMobile ? $scope.addMemObj.altMobile.trim() : '' ;
-        obj['date_of_birth'] = $scope.addMemObj.dob.trim();
+        obj['date_of_birth'] = $scope.addMemObj.dob ? $scope.addMemObj.dob.trim() : '01/01/1950';
         obj['enrollment_date'] = $scope.addMemObj.enrollDate.trim();
 
         obj['lineOne'] = $scope.addMemObj.lineOne.trim();
         obj['lineTwo'] = $scope.addMemObj.lineTwo ? $scope.addMemObj.lineTwo.trim() : '' ;
-        obj['pinCode'] = $scope.addMemObj.pincode;
-        obj['city'] = $scope.addMemObj.city.trim();
-        obj['state'] = $scope.addMemObj.state.trim();
-        obj['country'] = $scope.addMemObj.country.trim();
+        obj['pinCode'] = $scope.addMemObj.pincode ? $scope.addMemObj.pincode : 0 ;
+        obj['city'] = $scope.addMemObj.city ? $scope.addMemObj.city.trim() : '' ;
+        obj['state'] = $scope.addMemObj.state ? $scope.addMemObj.state.trim() : '' ;
+        obj['country'] = $scope.addMemObj.country ? $scope.addMemObj.country.trim() : '';
     }
 
     $scope.submitMemAdd = function(id) {
         console.log(JSON.stringify($scope.addMemObj));
-        if ($scope.addMemObj.firstName && $scope.addMemObj.lastName && $scope.addMemObj.mobile &&
-            $scope.addMemObj.dob && $scope.addMemObj.enrollDate && $scope.addMemObj.lineOne &&
-            $scope.addMemObj.city && $scope.addMemObj.state && $scope.addMemObj.pincode && $scope.addMemObj.country) {
+        if ($scope.addMemObj.firstName && $scope.addMemObj.lastName && $scope.addMemObj.mobile 
+            && $scope.addMemObj.enrollDate && $scope.addMemObj.lineOne ) {
 
             $('#myModal').modal('show');
             var obj = {};

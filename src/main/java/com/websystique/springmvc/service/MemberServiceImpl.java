@@ -167,6 +167,7 @@ public class MemberServiceImpl implements MemberService {
         //String hql = "from Package u where ";//where u.username=:unameStr and u.password=:pwdStr";
         Criteria query = session.createCriteria(Member.class);
         query.add(Restrictions.le("latest_pkg_expiry", date));
+        query.add(Restrictions.ge("latest_pkg_expiry", currDt));
 
         //sort based on updation_date
 
