@@ -3,15 +3,29 @@ package com.websystique.springmvc.middleware;
 import com.websystique.springmvc.service.LoginService;
 import com.websystique.springmvc.utils.Constants;
 import com.websystique.springmvc.utils.Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.handler.HandlerMethodMappingNamingStrategy;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.net.CookieStore;
+
+import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * Created by arkadutta on 24/08/16.
@@ -55,13 +69,18 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     LoginService loginService;  //Service which will do all data retrieval/manipulation work
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(GenericInterceptor.class);
+    //@Autowired
+    //private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    @Autowired
+    private ApplicationContext appContext;
+
 
     private static final String COOKIE_SESSION = "epme_session";
     private static final String INDEX_URL = "/epme/index/";
     private static final String DASHBOARD_URL = "/epme/index/dashboard/";
     private static final String[] allPass = {"/index/login/", "/index/changePassword/"};//temp
+
+    private static final Logger logger = Logger.getLogger(GenericInterceptor.class);
 
     private boolean isallPass(String uri) {
         //boolean flag = false;
@@ -86,6 +105,46 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
         //return false;
     }
 
+    //Important Code
+    private String getMethodRequestMapping(Method method) {
+        Assert.notNull(method, "'method' must not be null");
+        RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
+        if (requestMapping == null) {
+            throw new IllegalArgumentException("No @RequestMapping on: " + method.toGenericString());
+        }
+        String[] paths = requestMapping.path();
+        if (ObjectUtils.isEmpty(paths) || StringUtils.isEmpty(paths[0])) {
+            return "/";
+        }
+        /*if (paths.length > 1 && logger.isWarnEnabled()) {
+            logger.warn("Multiple paths on method " + method.toGenericString() + ", using first one");
+        }*/
+        return paths[0];
+    }
+
+    private void printRequestHandlerDetails(){
+
+        //WebApplicationContext context = new GenericWebApplicationContext();
+        RequestMappingHandlerMapping requestMappingHandlerMapping = appContext.getBean(RequestMappingHandlerMapping.class);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods =
+                requestMappingHandlerMapping.getHandlerMethods();
+
+        for(Map.Entry<RequestMappingInfo, HandlerMethod> item : handlerMethods.entrySet()) {
+            RequestMappingInfo mapping = item.getKey();
+            HandlerMethod method = item.getValue();
+
+            for (String urlPattern : mapping.getPatternsCondition().getPatterns()) {
+                System.out.println(
+                        method.getBeanType().getName() + "#" + method.getMethod().getName() +
+                                " <-- " + urlPattern);
+
+                /*if (urlPattern.equals("some specific url")) {
+                    //add to list of matching METHODS
+                }*/
+            }
+        }
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
@@ -97,6 +156,8 @@ public class GenericInterceptor extends HandlerInterceptorAdapter {
 
         //logic
         String uri = request.getRequestURI();
+
+        printRequestHandlerDetails();
 
         if (isallPass(uri)) {
             return true;

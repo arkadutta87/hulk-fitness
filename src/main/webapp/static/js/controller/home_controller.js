@@ -808,7 +808,7 @@ function($scope, $cookies, $timeout, $interval, HomeFactory) {
 
     $scope.submitMemAdd = function(id) {
         console.log(JSON.stringify($scope.addMemObj));
-        if ($scope.addMemObj.firstName && $scope.addMemObj.lastName && $scope.addMemObj.mobile 
+        if ($scope.addMemObj.firstName && $scope.addMemObj.lastName && $scope.addMemObj.mobile
             && $scope.addMemObj.enrollDate && $scope.addMemObj.lineOne ) {
 
             $('#myModal').modal('show');

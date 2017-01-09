@@ -64,7 +64,7 @@
 		</dependency>
 
 		<!-- Logging -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j-version}</version>
@@ -80,11 +80,11 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.17</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -103,7 +103,7 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>runtime</scope>
+			<!--scope>runtime</scope-->
 		</dependency>
 
 		<!-- MySQL -->

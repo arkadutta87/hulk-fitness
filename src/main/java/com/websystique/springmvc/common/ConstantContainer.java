@@ -5,14 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by arkadutta on 18/08/16.
  */
 public class ConstantContainer {
-    private static final Logger logger = LoggerFactory.getLogger(ConstantContainer.class);
     private static ConstantContainer ourInstance = new ConstantContainer();
 
     public static ConstantContainer getInstance() {
@@ -44,12 +41,12 @@ public class ConstantContainer {
 
 
             }catch(IOException e1){
-                logger.error(e1.getMessage());
+                System.out.println(e1.getMessage());
             }
 
 
         } catch(FileNotFoundException e){
-            logger.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
