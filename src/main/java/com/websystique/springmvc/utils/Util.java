@@ -88,10 +88,10 @@ public class Util {
 
         try {
             // Construct data
-            String user = "username=" + "arka.dutta@binaryworkers.com";
-            String hash = "&hash=" + "8f3f9d872d9f57720938250efdc6edc4a0aad2f1";
+            String user = "username=" + "xxxxxxxxxxxxxx";
+            String hash = "&hash=" + "xxxxxxxxxxxxxxx";
             String message = "&message=" + smsMessage;
-            String sender = "&sender=" + "HULKFC";
+            String sender = "&sender=" + "xxxxxxxxxxx";
             String numbers = "&numbers=" + number;
 
             // Send data
